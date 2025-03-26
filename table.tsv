@@ -1,0 +1,115 @@
+SYNTAX	DESCRIPTION	CLASS	CATEGORY	KEYWORDS
+local _StartAttack, lastAttackTime = ThePlayer.components.combat.StartAttack, GetTime() ThePlayer.components.combat.StartAttack = function(self, ...) TheNet:Announce(GetTime() - lastAttackTime) lastAttackTime = GetTime() _StartAttack(self, ...) end	Show attack speed (interval between attacks in seconds). Replace ThePlayer with what you want the attack speed of. Tenticles don't work.	TODO	TODO	TODO
+local c=TheCamera; c.zoomstep=2; c.mindist=0; c.maxdist=180; c.mindistpitch=90; c.maxdistpitch=90; c.distance=1; c.distancetarget=1; c.fov=170;	Set top-down camera with infinite zoom out.	TODO	TODO	TODO
+TheCamera:SetDefault()	Reset camera to default.	TODO	TODO	TODO
+c_spawn("twinmanager"):PushEvent("arrive", ThePlayer)	Spawn twins.	TODO	TODO	TODO
+c_spawn("klaus"):SpawnDeer()	Spawn klaus.	TODO	TODO	TODO
+c_spawn("antlion"):StartCombat()	Spawn antlion.	TODO	TODO	TODO
+TheWorld:AddComponent("shadowthrallmanager"); TheWorld.components.shadowthrallmanager:ControlFissure(c_spawn("fissure_lower"))	Spawn ink blights.	TODO	TODO	TODO
+local fossil_stalker = c_spawn("fossil_stalker"); fossil_stalker.moundsize = 7; fossil_stalker.components.repairable.onrepaired(fossil_stalker)	Spawn guaranteed correct Ancient Fuelweaver skeleton.	TODO	TODO	TODO
+c_spawn("stalker_atrium").IsNearAtrium = function() return true end	Spawn Ancient Fuelweaver that doesn't die when spawned. Spawns woven shadows and unseen hands around himself.	TODO	TODO	TODO
+c_gonext("icefishing_hole"); TheWorld.components.sharkboimanager:SetArenaState(3)	Spawn frostjaw.	TODO	TODO	TODO
+for i=1,8,1 do c_find("crabking").components.trader:AcceptGift(ThePlayer, c_spawn("purplegem")) end; c_find("crabking").components.trader:AcceptGift(ThePlayer, c_spawn("hermit_pearl"))	Give 8 purple gems and a pearl to Crap King.	TODO	TODO	TODO
+c_spawn("shadow_rook"):LevelUp(3)	Spawn level 3 shadow rook, replace "rook" with other piece's name to spawn them and replace 3 with 2 for level 2.	TODO	TODO	TODO
+c_spawn("deciduoustree_normal"):StartMonster()	Spawn a poison birchnut tree.	TODO	TODO	TODO
+local x, y, z = ConsoleWorldPosition():Get(); TheWorld:AddComponent("daywalkerspawner"); TheWorld.components.daywalkerspawner:SpawnDayWalkerArena(x, y, z)	Spawn a Nightmare Werepig spawner.	TODO	TODO	TODO
+AddShardModRPCHandler(1, 1, function() TheWorld:PushEvent("ms_setphase", "night"); TheWorld:PushEvent("ms_setphase", "day") end); SendModRPCToShard(GetShardModRPC(1, 1), nil)	Roll back the clock for a multi shard world.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_setphase", "day")	Roll back clock for a single-shard/dsa world.	TODO	TODO	TODO
+for k,v in pairs(AllPlayers) do for x=-1600,1600,35 do for y=-1600,1600,35 do v.player_classified.MapExplorer:RevealArea(x,0,y) end end end its pinned in seeds but putting it here too	Reveal the map.	TODO	TODO	TODO
+local beef = c_spawn("beefalo"); beef.components.hunger:DoDelta(400); beef.components.domesticatable:DeltaTendency("RIDER", 1); beef:SetTendency(); beef.components.domesticatable.domestication = 1; beef.components.domesticatable:BecomeDomesticated();	Spawn a rider beefalo.	TODO	TODO	TODO
+TheWorld.components.hounded:ForceNextWave()	Start a hound wave.	TODO	TODO	TODO
+toadcap = c_spawn"toadstool_cap"; toadcap:PushEvent"ms_spawntoadstool"	Spawn toadstool.	TODO	TODO	TODO
+toadcap = c_find"toadstool_cap"; toadcap:PushEvent"ms_spawntoadstool"	Spawn toadstool at the toadstool cap.	TODO	TODO	TODO
+TUNING.FROG_RAIN_DELAY = 0 TUNING.FROG_RAIN_PRECIPITATION = 0 TUNING.FROG_RAIN_MOISTURE = 0 TUNING.FROG_RAIN_CHANCE = 1 TheWorld:PushEvent("ms_forceprecipitation", true)	Start frog rain during spring in 1 minute, ending when you disconnect.	TODO	TODO	TODO
+c_find("dragonfly"):TransformFire()	Make Dragonfly enraged.	TODO	TODO	TODO
+c_find("dragonfly"):TransformNormal()	Make Dragonfly unenraged.	TODO	TODO	TODO
+for k,v in pairs(Ents) do if v.AnimState and v.AnimState:GetBuild() == "prefab1" then v.AnimState:OverrideSymbol("face", "prefab2","face") end end	Swap character faces. Replace "prefab1" with your character and prefab2 with the face you want to swap to. Only works with default skin. Does not work with certain characters.	TODO	TODO	TODO
+for k,v in pairs(Ents) do if not v:HasTag("CLASSIFIED") and v.Transform and not v:IsNear(ThePlayer, X * 4) then v:Remove() end end	Clearing all entities not within some distance for reducing rollback/loading times Command for deleting everything that isn't within X tiles away from the player.	TODO	TODO	TODO
+c_spawn("shadowmeteor",10000) is my favorite	Spawn shadow meteor.	TODO	TODO	TODO
+c_select():DoPeriodicTask(0.1, function(inst) if inst.components.combat:InCooldown() then inst.AnimState:SetMultColour(1, 0, 0, 1) else inst.AnimState:SetMultColour(0, 1, 0, 1) end end)	Make a target red when its attack is on cooldown.	TODO	TODO	TODO
+ThePlayer.SoundEmitter:PlaySound("dontstarve/music/music_FE_WF")	Set character sound you want emitted.	TODO	TODO	TODO
+c_announce("Hi")c_announce("Hello")c_announce("World")	Announce multiple stuff at once.	TODO	TODO	TODO
+c_announce("Reeds: "..c_countprefabs("reeds"))	Announce Reeds count.	TODO	TODO	TODO
+c_announce("Totally Normal Trees: "..c_countprefabs("livingtree"))	Announce Totally Normal Tree count.	TODO	TODO	TODO
+c_announce("Killer Bees: "..c_countprefabs("wasphive"))	Announce Killer bee count.	TODO	TODO	TODO
+TheNet:Disconnect(true)	Disconnect.	TODO	TODO	TODO
+c_announce(TheWorld.meta.seed)	Announce world seed.	TODO	TODO	TODO
+local fish = c_give("prefab") fish.components.weighable:SetWeight(x)	Spawns fish with specified weight. Replace "prefab" with prefab of fish, for example "ocean_fish_medium_2_inv". Replace x with weight.	TODO	TODO	TODO
+TheScrapbookPartitions:DebugDeleteAllData()	Resets scrapbook. Run on main menu, or disconnect after using for it to go into effect, it will temporarily show 100% scrapbook.	TODO	TODO	TODO
+c_spawn("stalker_minion"):OnSpawnedBy(c_find("stalker_atrium"))	Spawn a fuelweaver minion that tries to walk towards fuelweaver.	TODO	TODO	TODO
+c_find(prefab).components.finiteuses:SetPercent(0.75)	Change durability of a non-armor boon item on character select.	TODO	TODO	TODO
+c_find(prefab).components.armor:SetPercent(0.75)	Change durability of armor boon item on character select.	TODO	TODO	TODO
+for k,v in pairs(Ents) do if v.prefab == "panflute" and v.components.finiteuses:GetPercent() < 1 then v.components.finiteuses:SetPercent(0.7) end end	Change durability of panflute boon item on character select. Panflute is assumed to not have 100% durrability, and therefore does not change glommer flute.	TODO	TODO	TODO
+local prefab = "twigs"; local eyecolor = "purple"; for k,v in pairs(Ents) do if v.prefab == prefab then local instlense = SpawnPrefab(eyecolor.."mooneye"); instlense.Physics:ClearCollidesWith(COLLISION.OBSTACLES); instlense.Transform:SetPosition(v.Transform:GetWorldPosition()); end end	Place a moonlens ontop of every twig in the world.	TODO	TODO	TODO
+ThePlayer.components.health:SetMaxHealth(1)	Set max health.	TODO	TODO	TODO
+c_sethealth	Set health as a percentage of max health.	TODO	TODO	TODO
+TheSim:SetTimeScale(x)	Make the game x times faster.	TODO	TODO	TODO
+c_despawn()	Go to character selection screen. All unlocked recepies will be reset. You will spawn back at Florid Postern.	TODO	TODO	TODO
+c_gonext("prefab")	Go to specific prefab.	TODO	TODO	TODO
+c_teleport()	Teleport to cursor.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_forceprecipitation", true)	Start rain. Does not set wetness.	TODO	TODO	TODO
+TheWorld.net.state.iswet = true	Make world wet.	TODO	TODO	TODO
+local x=c_spawn("prefab");x.components.inventoryitem.sinks = false	Spawn a prefab that doesnt sink. Replace "prefab" with an item.	TODO	TODO	TODO
+c_spawn("multiplayer_portal")	Spawn Florid Postern.	TODO	TODO	TODO
+local x,y,z = ThePlayer.Transform:GetWorldPosition();c_announce(string.format("x:%.2f, y:%.2f, z:%.2f", x, y, z));	Announce your position.	TODO	TODO	TODO
+local x,y,z = ConsoleWorldPosition():Get();c_announce(string.format("x:%.2f, y:%.2f, z:%.2f", x, y, z));	Announce the cursor's position.	TODO	TODO	TODO
+local prefabname = "pigman"; local pos = {x = 0, y = 0, z = 0}; local poschanged = false; if pos.x ~= 0 or pos.y ~= 0 or pos.z ~= 0 then poschanged = true end; c_supergodmode();c_supergodmode();c_emptyworld(); if poschanged then local prefab = SpawnPrefab(prefabname); prefab.Transform:SetPosition(pos.x,pos.y,pos.z); else local prefab = DebugSpawn(prefabname); end;	DELETE EVERYTHING and start enemy practice.	TODO	TODO	TODO
+ThePlayer.components.combat.externaldamagemultipliers:SetModifier(ThePlayer, mult)	Set damage multiplier.	TODO	TODO	TODO
+c_announce(c_find("toadstool").components.health.currenthealth)	Announce an enemy's health.	TODO	TODO	TODO
+c_announce(c_select().components.health.currenthealth)	Announce selected enemy's health.	TODO	TODO	TODO
+local a = c_find("toadstool").components.health; c_announce(a.currenthealth/a.maxhealth)	Announce enemy's remaining health as a fraction.	TODO	TODO	TODO
+local crab = c_findnext("hermitcrab") local crabfriendly = crab.components.friendlevels for i = 1, 10, 1 do local task = crabfriendly.friendlytasks[i] task.complete = false crabfriendly:CompleteTask(i) end	Set pearl friendship. Complete all possible tasks by changing 10 to 18.	TODO	TODO	TODO
+local crab = c_findnext("hermitcrab") local crabfriendly = crab.components.friendlevels c_announce(crabfriendly:GetLevel().."/"..crabfriendly:GetMaxLevel())	Get Crabby Hermit friendship level.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_startthemoonstorms")	Start moonstorms.	TODO	TODO	TODO
+c_give(prefab).components.finiteuses:SetPercent(1)	Spawn a watering can or other prefabs at 100%.	TODO	TODO	TODO
+local function a(a, b) local c = a.components.health.maxhealth; a.Label:SetText(c*b.newpercent.."/"..c) end; for k,v in pairs(Ents) do local b = v.components.health; if b then local c = v.entity:AddLabel(); c:SetFont(BODYTEXTFONT); c:SetFontSize(24); v:ListenForEvent("healthdelta", a); b:DoDelta(0) end end	Make each entity say their hp.	TODO	TODO	TODO
+c_find("stalker_atrium").components.entitytracker:TrackEntity("stargate", c_find("atrium_gate")) most likely	Link spawned Ancient Fuelweaver to the gateway ##if doesn't work swap the positions of "stargate" and c_find("atrium_gate").	TODO	TODO	TODO
+local curday = os.date("%d", os.time()); if tonumber(curday) < 10 then curday = string.sub(curday, 2, 2); end local curdate = os.date("%B "..curday..", %Y ", os.time()); local curhour = tonumber(os.date("%H", os.time())); local curhourmod = ((curhour-1)%12)+1; local curminute = os.date("%M ", os.time()); if curhour < 12 then curampm = "AM"; else curampm = "PM"; end c_announce(curdate..curhourmod..":"..curminute..curampm)	Announce the current date.	TODO	TODO	TODO
+for k,v in pairs(Ents) do if v.gemmed then local inst = SpawnPrefab(string.sub(v.gemmed, 1, -4).."mooneye"); inst.Physics:ClearCollidesWith(COLLISION.OBSTACLES); inst.Transform:SetPosition(v.Transform:GetWorldPosition()) end end	Add a moonlens to every ruins statue corresponding to its gem color. May get pushed off when loaded.	TODO	TODO	TODO
+local x,y,z = ConsoleWorldPosition():Get(); SpawnPrefab("insanityrock").Transform:SetPosition(math.floor(x),math.floor(y),math.floor(z));	Spawn objects to rounded position (per in-game unit).	TODO	TODO	TODO
+local function multipleof(number, multiple) local moddiv = (number + multiple/2)/multiple; return multiple*math.floor(moddiv); end local function snapspawn(prefab, mult) local x,y,z = ConsoleWorldPosition():Get(); local inst = SpawnPrefab(prefab); inst.Transform:SetPosition(multipleof(x, mult),multipleof(y, mult),multipleof(z, mult)); end snapspawn("basalt_pillar", 4);	Spawn basalt pillar rounded to closest tile.	TODO	TODO	TODO
+local function entcircle(prefab, radius, precision) local mpos = Vector3(ConsoleWorldPosition():Get()); for i = 0, 360-(360/precision), 360/precision do local inst = SpawnPrefab(prefab); local pos = {x = radius*math.sin(math.rad(i)), y = 0, z = radius*math.cos(math.rad(i))}; inst.Transform:SetPosition(mpos.x+pos.x,0,mpos.z+pos.z); print(pos.x,pos.z) end end entcircle("beefalo", 20, 9);	Spawn beefalo in circle.	TODO	TODO	TODO
+for k,v in pairs(Ents) do if v.prefab == "a" then ReplacePrefab(v, "b") end end	Replace all existing entities with new entity. Example replaces "a" with "b".	TODO	TODO	TODO
+SpawnPrefab("redmooneye").Transform:SetPosition(0, 0, 0)	Spawn a moonlens at 0,0,0.	TODO	TODO	TODO
+for k,v in pairs(AllPlayers) do for x=-1600,1600,35 do for y=-1600,1600,35 do v.player_classified.MapExplorer:RevealArea(x,0,y) end end end	Reveal the map.	TODO	TODO	TODO
+TheScrapbookPartitions:DebugUnlockEverything()	Unlock entire scrapbook. Works inside a world, may take some time to update.	TODO	TODO	TODO
+function migrate(id, p) for k,v in pairs(Ents) do if v.prefab == "cave_entrance" or v.prefab == "cave_exit" then local wm = v.components.worldmigrator if wm.id == id or 1 then TheWorld:PushEvent("ms_playerdespawnandmigrate", { player = p or ThePlayer, portalid = id or 0, worldid = wm.linkedWorld }) end end end end migrate()	Move to the other shard quickly. Extra features: migrate(3, AllPlayers[3]) takes the second joined player to the other third connection. By default it takes MasterSim (world owner) to the other shard's portal (cause 0 is always an invalid id).	TODO	TODO	TODO
+AddClassPostConstruct("screens/playerhud", function(self) local redundantpause = false local redundantunpause = false local OnUpdate_new = self.OnUpdate self.OnUpdate = function(...) OnUpdate_new(...) if self.serverpaused then if not redundantpause then ThePlayer:PushEvent("multiplayerpaused") redundantpause = true redundantunpause = false end else if not redundantunpause then ThePlayer:PushEvent("multiplayerunpaused") redundantunpause = true redundantpause = false end end return end end)	Retrieve the cave seed in the forest shard and vice versa.	TODO	TODO	TODO
+c_announce(TheWorld.meta.level_id)	Announce current world type.	TODO	TODO	TODO
+add _spice_xyz	Get spiced food, where xyz is the food name.	TODO	TODO	TODO
+add _spice_sugar	Get honey spice.	TODO	TODO	TODO
+add _spice_pepper	Get chili flakes.	TODO	TODO	TODO
+c_announce(c_countprefabs“walrus_camp”)	Count every Walrus camp on world.	TODO	TODO	TODO
+c_select().brain:Stop()	Turn off the AI of the entity under the cursor. Entity will still keep moving if it moved beforehand.	TODO	TODO	TODO
+c_select().components.locomotor:Stop()	Stop the entity that is under the cursor.	TODO	TODO	TODO
+for _,p in pairs(Ents) do if p.prefab ~= "rabbit" then local pb = p.brain local pc = p.components local pcl = pc.locomotor if pb then pb:Stop() end if pc and pcl then pcl:Stop() end end end	Turn off brains. Brains may turn on again after some time.	TODO	TODO	TODO
+c_select().components.health:SetPercent(x)	Set a mob to a specific hp threshold for phases and such.	TODO	TODO	TODO
+c_migrationportal()	Make a new portal that goes to the caves.	TODO	TODO	TODO
+c_spawn("junk_pile_big") TheWorld.components.forestdaywalkerspawner:TryToSetDayWalkerJunkPile()	Spawning in a functional scrappy werepig. Can ommit 1st line if you want to use the junkyard that already exists.	TODO	TODO	TODO
+local gri_real = GetRandomItem GetRandomItem = function() return "greengem" end c_spawn("ruins_statue_head") GetRandomItem = gri_real	Spawn a statue with a specific gem.	TODO	TODO	TODO
+c_speedmult(x)	Set your speed to a specific multiplier where x is a multiplier of base speed (so 3 is 18 speed, for example).	TODO	TODO	TODO
+c_announce(c_find("dragonfly").components.moisture:GetMoisture())	Show wetness of dragon fly.	TODO	TODO	TODO
+c_find("dragonfly").components.moisture:DoDelta(x)	Add x to the boss's moisture.	TODO	TODO	TODO
+c_find("dragonfly").components.moisture:DoDelta(-inst.components.moisture:GetMoisture()) c_find("dragonfly").components.moisture:DoDelta(-100)	Set boss mosture.	TODO	TODO	TODO
+local size = TheWorld.Map:GetSize(); local land_count = 0; for x = -0.5*size, 0.5*size do for z = -0.5*size, 0.5*size do if TheWorld.Map:IsLandTileAtPoint(4*x, 0, 4*z) then land_count = land_count+1; end end end c_announce(land_count)	Display how many land tiles there are in a world.	TODO	TODO	TODO
+local elemental = c_spawn("potato"); elemental:AddComponent("edible"); elemental.components.edible.sanityvalue(100, 1);	Spawn a fancy potato.	TODO	TODO	TODO
+local elemental = c_spawn("winter_ornament_light1"); elemental:AddComponent("periodicspawner"); elemental.components.periodicspawner:SetPrefab("spiderden"); elemental.components.periodicspawner:SetRandomTimes(3, 3); elemental.components.periodicspawner:SetMinimumSpacing(0); elemental.components.periodicspawner:Start();	Spawn a periodic enemy spawner.	TODO	TODO	TODO
+local elemental = c_spawn("winter_ornament_light5"); elemental:AddComponent("periodicspawner"); elemental.components.periodicspawner:SetPrefab("houndfire"); elemental.components.periodicspawner:SetRandomTimes(0.1, 5); elemental.components.periodicspawner:SetMinimumSpacing(0); elemental.components.periodicspawner:Start();	Spawn a fire starter festive light.	TODO	TODO	TODO
+local elemental = c_spawn("trinket_18"); elemental:AddComponent("periodicspawner"); elemental.components.periodicspawner:SetPrefab("fossilspike2"); elemental.components.periodicspawner:SetRandomTimes(1, 0.1); elemental.components.periodicspawner:SetDensityInRange(10, 2); elemental.components.periodicspawner:SetMinimumSpacing(0); elemental.components.periodicspawner:Start();	Trojan horse trinket that impales the user.	TODO	TODO	TODO
+local elemental = c_spawn("cane"); elemental:AddComponent("named") elemental.components.named:SetName("Trotting Cane") elemental.components.equippable.walkspeedmult = 1.65	Spawn a custom walking cane.	TODO	TODO	TODO
+local orchard = c_spawn("deciduoustree_tall"); orchard:AddComponent("pickable"); orchard.components.pickable:SetUp("meat", 2, 4); orchard.components.pickable.jostlepick = true; orchard.components.pickable.droppicked = true; orchard.components.pickable.dropheight = 25;	Tree that summons meat from the sky.	TODO	TODO	TODO
+local orchard = c_spawn("cavein_boulder"); orchard:AddComponent("pickable"); orchard.components.pickable:SetUp("lobster_sheller_land", 2, 1); orchard.components.pickable.jostlepick = true; orchard.components.pickable.droppicked = true; orchard.components.pickable.dropheight = 0;	Spawn a boulder that spawns wobsters.	TODO	TODO	TODO
+local orchard = c_spawn("cavein_boulder"); orchard:AddComponent("pickable"); orchard.components.pickable:SetUp("gift_wrap", 2, 2); orchard.components.pickable.jostlepick = true; orchard.components.pickable.droppicked = true; orchard.components.pickable.dropheight = 25;	Spawn a boulder that spawns gift wrap.	TODO	TODO	TODO
+local orchard = c_spawn("cavein_boulder"); orchard:AddComponent("pickable"); orchard.components.pickable:SetUp("wortox_soul", 2, 25); orchard.components.pickable.jostlepick = true; orchard.components.pickable.droppicked = true; orchard.components.pickable.dropheight = 2;	Spawn a healing boulder. Heals via Wortox souls.	TODO	TODO	TODO
+local poop = c_spawn("berries"); poop:AddComponent("cookable");poop.components.cookable.product = "spider"; poop.components.stackable.maxsize = 0.1;	Spawn a berry that turns into meat when cooked.	TODO	TODO	TODO
+local poop = c_spawn("meat"); poop:AddComponent("edible"); local function oneaten_raw(inst, eater) local yummity = eater.Transform:GetScale() / 1.25 eater.Transform:SetScale(yummity, yummity, yummity) end; poop.components.edible:SetOnEatenFn(oneaten_raw)	Spawn food that makes players bigger.	TODO	TODO	TODO
+local elemental = c_spawn("cane"); elemental:AddComponent("periodicspawner"); elemental.components.periodicspawner:SetPrefab("shadowmeteor"); elemental.components.periodicspawner:SetRandomTimes(2, 1); elemental.composnents.periodicspawner:SetDensityInRange(10, 2); elemental.components.periodicspawner:SetMinimumSpacing(0); elemental.components.periodicspawner:Start(); elemental:AddComponent("named") elemental.components.named:SetName("Meteor Cane") elemental.components.equippable.walkspeedmult = 2 ThePlayer.AnimState:SetBuild("character") ThePlayer.AnimState:SetBuild("wes")	Spawn a walking cane that summons meteors to destroy itself.	TODO	TODO	TODO
+local poop = c_spawn("berries"); poop:AddComponent("cookable");poop.components.cookable.product = "meat"; poop.components.stackable.maxsize = 1;	Spawn a berry that turns into meat when cooked.	TODO	TODO	TODO
+local wand = c_spawn("phlegm");wand:AddComponent("weapon") ; wand.components.weapon:SetDamage(0); wand.foleysound = "dontstarve/movement/foley/jewlery";wand:AddTag("thrown"); wand.components.weapon:SetProjectile("spat_bomb"); wand.components.weapon:SetRange(11, 14);wand:AddComponent("equippable"); wand.components.equippable.equipslot = EQUIPSLOTS.HANDS;wand:RemoveComponent("stackable");	Spawn a Phlegm wand.	TODO	TODO	TODO
+for k, v in pairs(AllPlayers) do v.sg:GoToState("emote", { anim = { "emote_pre_carol", "emote_loop_carol", }, fx = false, loop = true, mounted = true, sounddelay = 0.8, soundlooped = true, soundoverride = "carol" }) end	Everyone uses carol emote.	TODO	TODO	TODO
+local beef = c_spawn("beefalo"); beef.components.beard.daysgrowth = 0 ;beef.components.beard.bits = 20 ; beef.components.beard.prize = "glommerfuel"; beef.components.hunger:DoDelta(400); beef.components.domesticatable:DeltaTendency("ORNERY", 1); beef:SetTendency(); beef.components.domesticatable.domestication = 1; beef.components.domesticatable:BecomeDomesticated(); beef.components.brushable.prize = "slurper";	Spawn beefalo that can be shaved for glommer goop.	TODO	TODO	TODO
+TheInput:GetWorldEntityUnderMouse():Remove()	Delete item under mouse cursor.	TODO	TODO	TODO
+AllPlayers[number]:PushEvent('respawnfromghost')	Resurrect all players.	TODO	TODO	TODO
+worm1a = c_find("wormhole") worm1b = c_find("wormhole") worm1a.components.teleporter.targetTeleporter = worm1b	Link two wormholes.	TODO	TODO	TODO
+c_gonext("wormhole")	Go to wormhole.	TODO	TODO	TODO
+c_announce(string.format("%.2f", c_pos(c_find"multiplayer_portal"):Dist(c_pos(c_find"chester_eyebone"))))	Announce distance between Florid Postern and the Chester Eyebone.	TODO	TODO	TODO

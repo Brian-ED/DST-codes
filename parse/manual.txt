@@ -1,0 +1,738 @@
+Show attack speed (interval between attacks in seconds). Replace ThePlayer with what you want the attack speed of. Tenticles don't work.
+----
+local _StartAttack, lastAttackTime = ThePlayer.components.combat.StartAttack, GetTime() ThePlayer.components.combat.StartAttack = function(self, ...) TheNet:Announce(GetTime() - lastAttackTime) lastAttackTime = GetTime() _StartAttack(self, ...) end
+
+
+Set top-down camera with infinite zoom out.
+----
+local c=TheCamera; c.zoomstep=2; c.mindist=0; c.maxdist=180; c.mindistpitch=90; c.maxdistpitch=90; c.distance=1; c.distancetarget=1; c.fov=170;
+
+
+Reset camera to default.
+----
+TheCamera:SetDefault()
+
+
+Spawn twins.
+----
+c_spawn("twinmanager"):PushEvent("arrive", ThePlayer)
+
+
+Spawn klaus.
+----
+c_spawn("klaus"):SpawnDeer()
+
+
+Spawn antlion.
+----
+c_spawn("antlion"):StartCombat()
+
+
+Spawn ink blights.
+----
+TheWorld:AddComponent("shadowthrallmanager"); TheWorld.components.shadowthrallmanager:ControlFissure(c_spawn("fissure_lower"))
+
+
+Spawn guaranteed correct Ancient Fuelweaver skeleton.
+----
+local fossil_stalker = c_spawn("fossil_stalker"); fossil_stalker.moundsize = 7; fossil_stalker.components.repairable.onrepaired(fossil_stalker)
+
+
+Spawn Ancient Fuelweaver that doesn't die when spawned. Spawns woven shadows and unseen hands around himself.
+----
+c_spawn("stalker_atrium").IsNearAtrium = function() return true end
+
+
+Spawn frostjaw.
+----
+c_gonext("icefishing_hole"); TheWorld.components.sharkboimanager:SetArenaState(3)
+
+
+Give 8 purple gems and a pearl to Crap King.
+----
+for i=1,8,1 do c_find("crabking").components.trader:AcceptGift(ThePlayer, c_spawn("purplegem")) end; c_find("crabking").components.trader:AcceptGift(ThePlayer, c_spawn("hermit_pearl"))
+
+
+Spawn level 3 shadow rook, replace "rook" with other piece's name to spawn them and replace 3 with 2 for level 2.
+----
+c_spawn("shadow_rook"):LevelUp(3)
+
+
+Spawn a poison birchnut tree.
+----
+c_spawn("deciduoustree_normal"):StartMonster()
+
+
+Spawn a Nightmare Werepig spawner.
+----
+local x, y, z = ConsoleWorldPosition():Get(); TheWorld:AddComponent("daywalkerspawner"); TheWorld.components.daywalkerspawner:SpawnDayWalkerArena(x, y, z)
+
+
+Roll back the clock for a multi shard world.
+----
+AddShardModRPCHandler(1, 1, function() TheWorld:PushEvent("ms_setphase", "night"); TheWorld:PushEvent("ms_setphase", "day") end); SendModRPCToShard(GetShardModRPC(1, 1), nil)
+
+
+Roll back clock for a single-shard/dsa world.
+----
+TheWorld:PushEvent("ms_setphase", "day")
+
+
+Reveal the map.
+----
+for k,v in pairs(AllPlayers) do for x=-1600,1600,35 do for y=-1600,1600,35 do v.player_classified.MapExplorer:RevealArea(x,0,y) end end end
+its pinned in seeds but putting it here too
+
+
+Spawn a rider beefalo.
+----
+local beef = c_spawn("beefalo"); beef.components.hunger:DoDelta(400); beef.components.domesticatable:DeltaTendency("RIDER", 1); beef:SetTendency(); beef.components.domesticatable.domestication = 1; beef.components.domesticatable:BecomeDomesticated();
+
+
+Start a hound wave.
+----
+TheWorld.components.hounded:ForceNextWave()
+
+
+Spawn toadstool.
+----
+toadcap = c_spawn"toadstool_cap"; toadcap:PushEvent"ms_spawntoadstool"
+
+
+Spawn toadstool at the toadstool cap.
+----
+toadcap = c_find"toadstool_cap"; toadcap:PushEvent"ms_spawntoadstool"
+
+
+Start frog rain during spring in 1 minute, ending when you disconnect.
+----
+TUNING.FROG_RAIN_DELAY = 0
+TUNING.FROG_RAIN_PRECIPITATION = 0
+TUNING.FROG_RAIN_MOISTURE = 0
+TUNING.FROG_RAIN_CHANCE = 1
+TheWorld:PushEvent("ms_forceprecipitation", true)
+
+
+Make Dragonfly enraged.
+----
+c_find("dragonfly"):TransformFire()
+
+
+Make Dragonfly unenraged.
+----
+c_find("dragonfly"):TransformNormal()
+
+
+Swap character faces. Replace "prefab1" with your character and prefab2 with the face you want to swap to. Only works with default skin. Does not work with certain characters.
+----
+for k,v in pairs(Ents) do if v.AnimState and v.AnimState:GetBuild() == "prefab1" then v.AnimState:OverrideSymbol("face", "prefab2","face") end end
+
+
+Clearing all entities not within some distance for reducing rollback/loading times
+Command for deleting everything that isn't within X tiles away from the player.
+----
+for k,v in pairs(Ents) do if not v:HasTag("CLASSIFIED") and v.Transform and not v:IsNear(ThePlayer, X * 4) then v:Remove() end end
+
+
+Spawn shadow meteor.
+----
+c_spawn("shadowmeteor",10000) is my favorite
+
+
+Make a target red when its attack is on cooldown.
+----
+c_select():DoPeriodicTask(0.1, function(inst) if inst.components.combat:InCooldown() then inst.AnimState:SetMultColour(1, 0, 0, 1) else inst.AnimState:SetMultColour(0, 1, 0, 1) end end)
+
+
+Set character sound you want emitted.
+----
+ThePlayer.SoundEmitter:PlaySound("dontstarve/music/music_FE_WF")
+
+
+Announce multiple stuff at once.
+----
+c_announce("Hi")c_announce("Hello")c_announce("World")
+
+
+Announce Reeds count.
+----
+c_announce("Reeds: "..c_countprefabs("reeds"))
+
+
+Announce Totally Normal Tree count.
+----
+c_announce("Totally Normal Trees: "..c_countprefabs("livingtree"))
+
+
+Announce Killer bee count.
+----
+c_announce("Killer Bees: "..c_countprefabs("wasphive"))
+
+
+Disconnect.
+----
+TheNet:Disconnect(true)
+
+
+Announce world seed.
+----
+c_announce(TheWorld.meta.seed)
+
+
+Spawns fish with specified weight.
+Replace "prefab" with prefab of fish, for example "ocean_fish_medium_2_inv".
+Replace x with weight.
+----
+local fish = c_give("prefab")
+fish.components.weighable:SetWeight(x)
+
+
+Resets scrapbook. Run on main menu, or disconnect after using for it to go into effect, it will temporarily show 100% scrapbook.
+----
+TheScrapbookPartitions:DebugDeleteAllData()
+
+
+Spawn a fuelweaver minion that tries to walk towards fuelweaver.
+----
+c_spawn("stalker_minion"):OnSpawnedBy(c_find("stalker_atrium"))
+
+
+Change durability of a non-armor boon item on character select.
+----
+c_find(prefab).components.finiteuses:SetPercent(0.75)
+
+
+Change durability of armor boon item on character select.
+----
+c_find(prefab).components.armor:SetPercent(0.75)
+
+
+Change durability of panflute boon item on character select. Panflute is assumed to not have 100% durrability, and therefore does not change glommer flute.
+----
+for k,v in pairs(Ents) do
+  if v.prefab == "panflute" and v.components.finiteuses:GetPercent() < 1 then
+    v.components.finiteuses:SetPercent(0.7)
+  end
+end
+
+
+Place a moonlens ontop of every twig in the world.
+----
+local prefab = "twigs";
+local eyecolor = "purple";
+for k,v in pairs(Ents) do
+    if v.prefab == prefab then
+        local instlense = SpawnPrefab(eyecolor.."mooneye");
+        instlense.Physics:ClearCollidesWith(COLLISION.OBSTACLES);
+        instlense.Transform:SetPosition(v.Transform:GetWorldPosition());
+    end
+end
+
+
+Set max health.
+----
+ThePlayer.components.health:SetMaxHealth(1)
+
+
+Set health as a percentage of max health.
+----
+c_sethealth
+
+
+Make the game x times faster.
+----
+TheSim:SetTimeScale(x)
+
+
+Go to character selection screen. All unlocked recepies will be reset. You will spawn back at Florid Postern.
+----
+c_despawn()
+
+
+Go to specific prefab.
+----
+c_gonext("prefab")
+
+
+Teleport to cursor.
+----
+c_teleport()
+
+
+Start rain. Does not set wetness.
+----
+TheWorld:PushEvent("ms_forceprecipitation", true)
+
+
+Make world wet.
+----
+TheWorld.net.state.iswet = true
+
+
+Spawn a prefab that doesnt sink. Replace "prefab" with an item.
+----
+local x=c_spawn("prefab");x.components.inventoryitem.sinks = false
+
+
+Spawn Florid Postern.
+----
+c_spawn("multiplayer_portal")
+
+
+Announce your position.
+----
+local x,y,z = ThePlayer.Transform:GetWorldPosition();c_announce(string.format("x:%.2f, y:%.2f, z:%.2f", x, y, z));
+
+
+Announce the cursor's position.
+----
+local x,y,z = ConsoleWorldPosition():Get();c_announce(string.format("x:%.2f, y:%.2f, z:%.2f", x, y, z));
+
+
+DELETE EVERYTHING and start enemy practice.
+----
+local prefabname = "pigman";
+local pos = {x = 0, y = 0, z = 0}; local poschanged = false; if pos.x ~= 0 or pos.y ~= 0 or pos.z ~= 0 then poschanged = true end;
+c_supergodmode();c_supergodmode();c_emptyworld();
+if poschanged then local prefab = SpawnPrefab(prefabname);
+prefab.Transform:SetPosition(pos.x,pos.y,pos.z); else local prefab = DebugSpawn(prefabname); end;
+
+
+Set damage multiplier.
+----
+ThePlayer.components.combat.externaldamagemultipliers:SetModifier(ThePlayer, mult)
+
+
+Announce an enemy's health.
+----
+c_announce(c_find("toadstool").components.health.currenthealth)
+
+
+Announce selected enemy's health.
+----
+c_announce(c_select().components.health.currenthealth)
+
+
+Announce enemy's remaining health as a fraction.
+----
+local a = c_find("toadstool").components.health; c_announce(a.currenthealth/a.maxhealth)
+
+
+Set pearl friendship. Complete all possible tasks by changing 10 to 18.
+----
+local crab = c_findnext("hermitcrab")
+local crabfriendly = crab.components.friendlevels
+for i = 1, 10, 1 do
+    local task = crabfriendly.friendlytasks[i]
+    task.complete = false
+    crabfriendly:CompleteTask(i)
+end
+
+
+Get Crabby Hermit friendship level.
+----
+local crab = c_findnext("hermitcrab")
+local crabfriendly = crab.components.friendlevels
+c_announce(crabfriendly:GetLevel().."/"..crabfriendly:GetMaxLevel())
+
+
+Start moonstorms.
+----
+TheWorld:PushEvent("ms_startthemoonstorms")
+
+
+Spawn a watering can or other prefabs at 100%.
+----
+c_give(prefab).components.finiteuses:SetPercent(1)
+
+
+Make each entity say their hp.
+----
+local function a(a, b) local c = a.components.health.maxhealth; a.Label:SetText(c*b.newpercent.."/"..c) end; for k,v in pairs(Ents) do local b = v.components.health; if b then local c = v.entity:AddLabel(); c:SetFont(BODYTEXTFONT); c:SetFontSize(24); v:ListenForEvent("healthdelta", a); b:DoDelta(0) end end
+
+
+Link spawned Ancient Fuelweaver to the gateway ##if doesn't work swap the positions of "stargate" and c_find("atrium_gate").
+----
+c_find("stalker_atrium").components.entitytracker:TrackEntity("stargate", c_find("atrium_gate")) most likely
+
+
+Announce the current date.
+----
+local curday = os.date("%d", os.time());
+if tonumber(curday) < 10 then curday = string.sub(curday, 2, 2); end
+local curdate = os.date("%B "..curday..", %Y ", os.time());
+local curhour = tonumber(os.date("%H", os.time()));
+local curhourmod = ((curhour-1)%12)+1;
+local curminute = os.date("%M ", os.time());
+if curhour < 12 then curampm = "AM"; else curampm = "PM"; end
+c_announce(curdate..curhourmod..":"..curminute..curampm)
+
+
+Add a moonlens to every ruins statue corresponding to its gem color. May get pushed off when loaded.
+----
+for k,v in pairs(Ents) do if v.gemmed then local inst = SpawnPrefab(string.sub(v.gemmed, 1, -4).."mooneye"); inst.Physics:ClearCollidesWith(COLLISION.OBSTACLES); inst.Transform:SetPosition(v.Transform:GetWorldPosition()) end end
+
+
+Spawn objects to rounded position (per in-game unit).
+----
+local x,y,z = ConsoleWorldPosition():Get();
+SpawnPrefab("insanityrock").Transform:SetPosition(math.floor(x),math.floor(y),math.floor(z));
+
+
+Spawn basalt pillar rounded to closest tile.
+----
+local function multipleof(number, multiple)
+    local moddiv = (number + multiple/2)/multiple;
+    return multiple*math.floor(moddiv);
+end
+local function snapspawn(prefab, mult)
+    local x,y,z = ConsoleWorldPosition():Get();
+    local inst = SpawnPrefab(prefab);
+    inst.Transform:SetPosition(multipleof(x, mult),multipleof(y, mult),multipleof(z, mult));
+end
+snapspawn("basalt_pillar", 4);
+
+
+Spawn beefalo in circle.
+----
+local function entcircle(prefab, radius, precision)
+    local mpos = Vector3(ConsoleWorldPosition():Get());
+    for i = 0, 360-(360/precision), 360/precision do
+        local inst = SpawnPrefab(prefab);
+        local pos = {x = radius*math.sin(math.rad(i)), y = 0, z = radius*math.cos(math.rad(i))};
+        inst.Transform:SetPosition(mpos.x+pos.x,0,mpos.z+pos.z);
+        print(pos.x,pos.z)
+    end
+end
+entcircle("beefalo", 20, 9);
+
+
+Replace all existing entities with new entity. Example replaces "a" with "b".
+----
+for k,v in pairs(Ents) do if v.prefab == "a" then ReplacePrefab(v, "b") end end
+
+
+Spawn a moonlens at 0,0,0.
+----
+SpawnPrefab("redmooneye").Transform:SetPosition(0, 0, 0)
+
+
+Reveal the map.
+----
+for k,v in pairs(AllPlayers) do for x=-1600,1600,35 do for y=-1600,1600,35 do v.player_classified.MapExplorer:RevealArea(x,0,y) end end end
+
+
+Unlock entire scrapbook. Works inside a world, may take some time to update.
+----
+TheScrapbookPartitions:DebugUnlockEverything()
+
+
+Move to the other shard quickly. Extra features: migrate(3, AllPlayers[3]) takes the second joined player to the other third connection. By default it takes MasterSim (world owner) to the other shard's portal (cause 0 is always an invalid id).
+----
+function migrate(id, p)
+    for k,v in pairs(Ents) do
+        if v.prefab == "cave_entrance" or v.prefab == "cave_exit" then
+            local wm = v.components.worldmigrator
+            if wm.id == id or 1 then
+                TheWorld:PushEvent("ms_playerdespawnandmigrate", { player = p or ThePlayer, portalid = id or 0, worldid = wm.linkedWorld })
+            end
+        end
+    end
+end
+migrate()
+
+
+Retrieve the cave seed in the forest shard and vice versa.
+----
+AddClassPostConstruct("screens/playerhud", function(self)
+    local redundantpause = false
+    local redundantunpause = false
+    local OnUpdate_new = self.OnUpdate
+    self.OnUpdate = function(...)
+        OnUpdate_new(...)
+        if self.serverpaused then
+            if not redundantpause then
+                ThePlayer:PushEvent("multiplayerpaused")
+                redundantpause = true
+                redundantunpause = false
+            end
+        else
+            if not redundantunpause then
+                ThePlayer:PushEvent("multiplayerunpaused")
+                redundantunpause = true
+                redundantpause = false
+            end
+        end
+        return
+    end
+end)
+
+
+Announce current world type.
+----
+c_announce(TheWorld.meta.level_id)
+
+
+Get spiced food, where xyz is the food name.
+----
+add _spice_xyz
+
+
+Get honey spice.
+----
+add _spice_sugar
+
+
+Get chili flakes.
+----
+add _spice_pepper
+
+
+Count every Walrus camp on world.
+----
+c_announce(c_countprefabs“walrus_camp”)
+
+
+Turn off the AI of the entity under the cursor. Entity will still keep moving if it moved beforehand.
+----
+c_select().brain:Stop()
+
+
+Stop the entity that is under the cursor.
+----
+c_select().components.locomotor:Stop()
+
+
+Turn off brains. Brains may turn on again after some time.
+----
+for _,p in pairs(Ents) do
+  if p.prefab ~= "rabbit" then
+    local pb = p.brain
+    local pc = p.components
+    local pcl = pc.locomotor
+    if pb then pb:Stop() end
+    if pc and pcl then pcl:Stop() end
+  end
+end
+
+
+Set a mob to a specific hp threshold for phases and such.
+----
+c_select().components.health:SetPercent(x)
+
+
+Make a new portal that goes to the caves.
+----
+c_migrationportal()
+
+
+Spawning in a functional scrappy werepig. Can ommit 1st line if you want to use the junkyard that already exists.
+----
+c_spawn("junk_pile_big")
+TheWorld.components.forestdaywalkerspawner:TryToSetDayWalkerJunkPile()
+
+
+Spawn a statue with a specific gem.
+----
+local gri_real = GetRandomItem
+GetRandomItem = function() return "greengem" end
+c_spawn("ruins_statue_head")
+GetRandomItem = gri_real
+
+
+Set your speed to a specific multiplier where x is a multiplier of base speed (so 3 is 18 speed, for example).
+----
+c_speedmult(x)
+
+
+Show wetness of dragon fly.
+----
+c_announce(c_find("dragonfly").components.moisture:GetMoisture())
+
+
+Add x to the boss's moisture.
+----
+c_find("dragonfly").components.moisture:DoDelta(x)
+
+
+Set boss mosture.
+----
+c_find("dragonfly").components.moisture:DoDelta(-inst.components.moisture:GetMoisture())
+c_find("dragonfly").components.moisture:DoDelta(-100)
+
+
+Display how many land tiles there are in a world.
+----
+local size = TheWorld.Map:GetSize();
+local land_count = 0;
+for x = -0.5*size, 0.5*size do
+  for z = -0.5*size, 0.5*size do
+    if TheWorld.Map:IsLandTileAtPoint(4*x, 0, 4*z) then
+      land_count = land_count+1;
+    end
+  end
+end
+c_announce(land_count)
+
+
+Spawn a fancy potato.
+----
+local elemental = c_spawn("potato");
+elemental:AddComponent("edible");
+elemental.components.edible.sanityvalue(100, 1);
+
+
+Spawn a periodic enemy spawner.
+----
+local elemental = c_spawn("winter_ornament_light1");
+elemental:AddComponent("periodicspawner");
+elemental.components.periodicspawner:SetPrefab("spiderden");
+elemental.components.periodicspawner:SetRandomTimes(3, 3);
+elemental.components.periodicspawner:SetMinimumSpacing(0);
+elemental.components.periodicspawner:Start();
+
+
+Spawn a fire starter festive light.
+----
+local elemental = c_spawn("winter_ornament_light5");
+elemental:AddComponent("periodicspawner");
+elemental.components.periodicspawner:SetPrefab("houndfire");
+elemental.components.periodicspawner:SetRandomTimes(0.1, 5);
+elemental.components.periodicspawner:SetMinimumSpacing(0);
+elemental.components.periodicspawner:Start();
+
+
+Trojan horse trinket that impales the user.
+----
+local elemental = c_spawn("trinket_18");
+elemental:AddComponent("periodicspawner");
+elemental.components.periodicspawner:SetPrefab("fossilspike2");
+elemental.components.periodicspawner:SetRandomTimes(1, 0.1);
+elemental.components.periodicspawner:SetDensityInRange(10, 2);
+elemental.components.periodicspawner:SetMinimumSpacing(0);
+elemental.components.periodicspawner:Start();
+
+
+Spawn a custom walking cane.
+----
+local elemental = c_spawn("cane");
+elemental:AddComponent("named")
+elemental.components.named:SetName("Trotting Cane")
+elemental.components.equippable.walkspeedmult = 1.65
+
+
+Tree that summons meat from the sky.
+----
+local orchard = c_spawn("deciduoustree_tall");
+orchard:AddComponent("pickable");
+orchard.components.pickable:SetUp("meat", 2, 4);
+orchard.components.pickable.jostlepick = true;
+orchard.components.pickable.droppicked = true;
+orchard.components.pickable.dropheight = 25;
+
+
+Spawn a boulder that spawns wobsters.
+----
+local orchard = c_spawn("cavein_boulder");
+orchard:AddComponent("pickable");
+orchard.components.pickable:SetUp("lobster_sheller_land", 2, 1);
+orchard.components.pickable.jostlepick = true;
+orchard.components.pickable.droppicked = true;
+orchard.components.pickable.dropheight = 0;
+
+
+Spawn a boulder that spawns gift wrap.
+----
+local orchard = c_spawn("cavein_boulder");
+orchard:AddComponent("pickable");
+orchard.components.pickable:SetUp("gift_wrap", 2, 2);
+orchard.components.pickable.jostlepick = true;
+orchard.components.pickable.droppicked = true;
+orchard.components.pickable.dropheight = 25;
+
+
+Spawn a healing boulder. Heals via Wortox souls.
+----
+local orchard = c_spawn("cavein_boulder");
+orchard:AddComponent("pickable");
+orchard.components.pickable:SetUp("wortox_soul", 2, 25);
+orchard.components.pickable.jostlepick = true;
+orchard.components.pickable.droppicked = true;
+orchard.components.pickable.dropheight = 2;
+
+
+Spawn a berry that turns into meat when cooked.
+----
+local poop = c_spawn("berries"); poop:AddComponent("cookable");poop.components.cookable.product = "spider"; poop.components.stackable.maxsize = 0.1;
+
+
+Spawn food that makes players bigger.
+----
+local poop = c_spawn("meat"); poop:AddComponent("edible");
+local function oneaten_raw(inst, eater)
+local yummity = eater.Transform:GetScale() / 1.25
+eater.Transform:SetScale(yummity, yummity, yummity)
+end;
+poop.components.edible:SetOnEatenFn(oneaten_raw)
+
+
+Spawn a walking cane that summons meteors to destroy itself.
+----
+local elemental = c_spawn("cane"); elemental:AddComponent("periodicspawner");
+elemental.components.periodicspawner:SetPrefab("shadowmeteor");
+elemental.components.periodicspawner:SetRandomTimes(2, 1);
+elemental.composnents.periodicspawner:SetDensityInRange(10, 2);
+elemental.components.periodicspawner:SetMinimumSpacing(0);
+elemental.components.periodicspawner:Start();
+elemental:AddComponent("named")
+elemental.components.named:SetName("Meteor Cane")
+elemental.components.equippable.walkspeedmult = 2
+ThePlayer.AnimState:SetBuild("character")
+ThePlayer.AnimState:SetBuild("wes")
+
+
+Spawn a berry that turns into meat when cooked.
+----
+local poop = c_spawn("berries"); poop:AddComponent("cookable");poop.components.cookable.product = "meat"; poop.components.stackable.maxsize = 1;
+
+
+Spawn a Phlegm wand.
+----
+local wand = c_spawn("phlegm");wand:AddComponent("weapon") ; wand.components.weapon:SetDamage(0); wand.foleysound = "dontstarve/movement/foley/jewlery";wand:AddTag("thrown"); wand.components.weapon:SetProjectile("spat_bomb"); wand.components.weapon:SetRange(11, 14);wand:AddComponent("equippable"); wand.components.equippable.equipslot = EQUIPSLOTS.HANDS;wand:RemoveComponent("stackable");
+
+
+Everyone uses carol emote.
+----
+for k, v in pairs(AllPlayers) do v.sg:GoToState("emote", { anim = { "emote_pre_carol", "emote_loop_carol", }, fx = false, loop = true, mounted = true, sounddelay = 0.8, soundlooped = true, soundoverride = "carol" }) end
+
+
+Spawn beefalo that can be shaved for glommer goop.
+----
+local beef = c_spawn("beefalo"); beef.components.beard.daysgrowth = 0 ;beef.components.beard.bits = 20 ; beef.components.beard.prize = "glommerfuel"; beef.components.hunger:DoDelta(400); beef.components.domesticatable:DeltaTendency("ORNERY", 1); beef:SetTendency(); beef.components.domesticatable.domestication = 1; beef.components.domesticatable:BecomeDomesticated(); beef.components.brushable.prize = "slurper";
+
+
+Delete item under mouse cursor.
+----
+TheInput:GetWorldEntityUnderMouse():Remove()
+
+
+Resurrect all players.
+----
+AllPlayers[number]:PushEvent('respawnfromghost')
+
+
+Link two wormholes.
+----
+worm1a = c_find("wormhole")
+worm1b = c_find("wormhole")
+worm1a.components.teleporter.targetTeleporter = worm1b
+
+
+Go to wormhole.
+----
+c_gonext("wormhole")
+
+
+Announce distance between Florid Postern and the Chester Eyebone.
+----
+c_announce(string.format("%.2f", c_pos(c_find"multiplayer_portal"):Dist(c_pos(c_find"chester_eyebone"))))
