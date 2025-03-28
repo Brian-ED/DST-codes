@@ -10,6 +10,10 @@ Note that Internet Explorer is not supported.
 
 ### Notes
 
+- The commands currently are not tested.
+
+- The top bar of variable names is very wrong currently. Please ignore it until a future update.
+
 - The site may take some seconds to load due to the information being processed by the browser. Once ready, it does not require internet access any more.
 
 - Commands listed work for hopefully the newest version of Don't Starve Together, but it is not a guarentee.
