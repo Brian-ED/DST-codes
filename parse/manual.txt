@@ -351,7 +351,7 @@ Make each entity say their hp.
 local function a(a, b) local c = a.components.health.maxhealth; a.Label:SetText(c*b.newpercent.."/"..c) end; for k,v in pairs(Ents) do local b = v.components.health; if b then local c = v.entity:AddLabel(); c:SetFont(BODYTEXTFONT); c:SetFontSize(24); v:ListenForEvent("healthdelta", a); b:DoDelta(0) end end
 
 
-Link spawned Ancient Fuelweaver to the gateway ##if doesn't work swap the positions of "stargate" and c_find("atrium_gate").
+Link spawned Ancient Fuelweaver to the gateway. If it doesn't work swap the positions of "stargate" and c_find("atrium_gate").
 ----
 c_find("stalker_atrium").components.entitytracker:TrackEntity("stargate", c_find("atrium_gate")) most likely
 
@@ -736,3 +736,608 @@ c_gonext("wormhole")
 Announce distance between Florid Postern and the Chester Eyebone.
 ----
 c_announce(string.format("%.2f", c_pos(c_find"multiplayer_portal"):Dist(c_pos(c_find"chester_eyebone"))))
+
+
+Spawn the metheus puzzle chest.
+----
+c_spawn("sacred_chest")
+
+
+Spawn prefab under mouse cursor
+----
+c_spawn("prefab",amount)
+
+
+Get any amount of item.
+----
+c_give("prefab",amount)
+
+
+Get a set of starting items.
+----
+c_goadventuring()
+
+
+Apply a scenario script to the selection and run it.''
+----
+c_doscenario(scenario)
+
+
+Set your health to half of maximum.
+----
+c_sethea​lth(0.5)
+
+
+Set your sanity to half of maximum.
+----
+c_setsanit​y(0.5)
+
+
+Set hunger to half of maximum.
+----
+c_sethunger(0.5)
+
+
+Set your moisture to half of maximum.
+----
+c_setmoisture(0.5)
+
+
+Set temperature to half of maximum.
+----
+c_settemperature(0.5)
+
+
+If alive, toggle invincibility. If dead, revive.
+----
+c_godmode()
+
+
+If alive, toggle invincibility and get full health, sanity and hunger. If dead, revive.
+----
+c_supergodmode()
+
+
+Make yourself constantly regenerate health.
+----
+c_maintainhealth(ThePlayer)
+
+
+Make yourself constantly regenerate sanity.
+----
+c_maintainsanity(ThePlayer)
+
+
+Make yourself constantly regenerate hunger.
+----
+c_maintainhunger(ThePlayer)
+
+
+Make yourself constantly be a good temperature.
+----
+c_maintaintemperature(ThePlayer)
+
+
+Make yourself constantly be dry.
+----
+c_maintainmoisture(ThePlayer)
+
+
+Turn on constant regeneration of health, sanity, hunger, temperature, and drying.
+----
+c_maintainall(ThePlayer)
+
+
+Turn off constant regeneration of health, sanity, hunger, temperature, and drying.
+----
+c_cancelmaintaintasks(ThePlayer)
+
+
+Make some mobs not target you.
+----
+c_makeinvisible()
+
+
+Turn on player movement prediction for the server you have joined. Exchanges choppiness for rubberbanding.
+----
+ThePlayer:EnableMovementPrediction("true")
+
+
+Turn off player movement prediction for the server you have joined. Exchanges rubberbanding for choppiness.
+----
+ThePlayer:EnableMovementPrediction("true")
+
+
+Become able to craft anything.
+----
+c_freecrafting()
+GetPlayer().components.builder:GiveAllRecipes()
+
+
+Set max sanity.
+----
+ThePlayer.components.sanity:SetMax(value)
+
+
+Set max hunger.
+----
+ThePlayer.components.hunger:SetMax(value)
+
+
+Pause Hunger.
+----
+ThePlayer.components.hunger:Pause(true)
+
+
+Print the player list to the chat.
+----
+for i, v in ipairs(AllPlayers) do TheNet:SystemMessage(tostring(i) .. ": " .. v.name, false) end
+
+
+Get a certain player
+----
+AllPlayers[number]
+
+
+Apply a command to all players
+----
+for k,v in pairs(AllPlayers) do command end
+
+
+Move all players to mouse position
+----
+for k,v in pairs(AllPlayers) do c_move(v) end
+
+
+Teleport another player to mouse position.
+----
+c_move(AllPlayers[number])
+
+
+Kill a player
+----
+AllPlayers[number]:PushEvent('death')
+
+
+Kill the second player.
+----
+AllPlayers[2]:PushEvent('death')
+
+
+Kill player named Dave.
+----
+UserToPlayer('Dave'):PushEvent('death')
+
+
+Resurrect a player
+----
+AllPlayers[number]:PushEvent('respawnfromghost')
+
+
+Resurrect the second player.
+----
+AllPlayers[2]:PushEvent('respawnfromghost')
+
+
+Resurrect the player named Dave.
+----
+UserToPlayer('Dave'):PushEvent('respawnfromghost')
+
+
+Give creative mode to a player.
+----
+AllPlayers[number].components.builder:GiveAllRecipes()
+
+
+Give creative mode to the player named Dave.
+----
+UserToPlayer('Dave').components.builder:GiveAllRecipes()
+
+
+Teleport to a player.
+----
+c_goto(AllPlayers[number])
+
+
+Teleport to the second player.
+----
+c_goto(AllPlayers[2])
+
+
+Teleport to the player named Dave.
+----
+c_goto(UserToPlayer('Dave'))
+
+
+Drop a player's inventory items.
+----
+AllPlayers[number].components.inventory:DropEverything()
+
+
+Drop the second player's inventory items.
+----
+AllPlayers[2].components.inventory:DropEverything()
+
+
+Drop Dave's inventory items.
+----
+UserToPlayer('Dave').components.inventory:DropEverything()
+
+
+Despawn a player's character. Player returns to selection screen for repicking. Does delete player's items.
+----
+c_despawn(AllPlayers[number])
+
+
+Despawn Dave's character. Player returns to selection screen for repicking. Does delete player's items.
+----
+c_despawn(UserToPlayer('Dave'))
+
+
+Delete the item under your mouse on non-dedicated servers.
+----
+ConsoleWorldEntityUnderMouse():Remove()
+
+
+Delete the item under your mouse on a dedicated server.
+on dedicated servers
+----
+c_select():Remove()
+
+
+Deletes every instance of whatever item prefab is entered.
+----
+for k,v in pairs(Ents) do if v.prefab == "prefab" then v:Remove() end end
+
+
+Reveal map. Will not work if you are a client.
+----
+minimap = TheSim:FindFirstEntityWithTag("mini­map")
+TheWorld.minimap.MiniMap:ShowArea (0,0,0,10000)
+for x=-1600,1600,35 do
+    for y=-1600,1600,35 do
+        ThePlayer.player_classified.MapExplorer:RevealArea(x,0,y)
+    end
+end
+
+
+Reveal map for all players. Remote only, not client.
+----
+for k,v in pairs(AllPlayers) do for x=-1600,1600,35 do for y=-1600,1600,35 do v.player_classified.MapExplorer:RevealArea(x,0,y) end end end
+
+
+Skips X time units and performs the "LongUpdate" function on world objects
+----
+LongUpdate(X)
+
+
+Skip X time segments
+----
+LongUpdate(X*30)
+
+
+Skip X day, where a day is 16 segments, each being 30 time units
+----
+LongUpdate(X*16*30)
+
+
+Skip X days
+----
+LongUpdate(X*TUNING.TOTAL_DAY_TIME)
+
+
+Speed up the simulation of world by 1. Makes time pass faster.
+----
+c_speedup()
+
+
+Speed up the simulation of world by X. Makes time pass faster when X>1, slower when X<1, pause when X=0.
+----
+TheSim:SetTimeScale(X)
+
+
+Skip X days. Too big values may freeze the game
+?? Note that this is here so you can manually change the rate of time skip. Use c_skip(x)
+----
+TheWorld.net.components.clock:OnUpdate(X*16*30)
+
+
+Skip X days
+----
+c_skip(X)
+
+
+Skip to the next Day Cycle
+----
+​TheWorld:PushEvent("ms_nextcycle")
+
+
+Skips the current Day Cycle phase
+----
+TheWorld:PushEvent("ms_nextphase")
+
+
+Set Day Cycle phase to PHASE. PHASE can be "day", "dusk", or "night"
+----
+​TheWorld:PushEvent("ms_setphase",PHASE)
+
+
+Sets amount of segments for day X, dusk Y, and night Z. Lasts only for the current Day Cycle. Errors if X+Y+Z > 16
+----
+TheWorld:PushEvent("ms_setclocksegs", {day=X,dusk=Y,night=Z})
+
+
+Skip to the next Nightmare Cycle
+----
+​TheWorld:PushEvent("ms_nextnightmarecycle")
+
+
+Skip the current Nightmare Cycle phase.
+----
+TheWorld:PushEvent("ms_nextnightmarephase")
+
+
+Set Nightmare Cycle phase. PHASE can be "calm", "warn", "wild", or "dawn".
+----
+​TheWorld:PushEvent("ms_setnightmarephase",PHASE)
+
+
+Sets amount of segments for each phase in the Nightmare Cycle. A, B, C, and D can be any number. The default is {calm=12,warn=3,wild=5,dawn=2}
+----
+TheWorld:PushEvent("ms_setnightmaresegs", {calm=A,warn=B,wild=C,dawn=D})
+
+
+Lock at specific Nightmare Cycle phase. PHASE can be "calm", "warn", "wild", or "dawn"
+----
+​TheWorld:PushEvent("ms_locknightmarephase",PHASE)
+
+
+Stop locking nightmare phase
+----
+​TheWorld:PushEvent("ms_locknightmarephase")
+
+
+Set season segments. Errors if X + Y + Z adds up to over 16.
+''Very long day, very short dusk and night (one segment for dusk and one for night), with a slightly longer night in winter.''
+----
+​TheWorld:PushEvent("ms_setseasonclocksegs", {summer={day=sx,dusk=sy,night=sz}, winter={day=wx,dusk=wy,night=wz}})
+
+
+Set season lengths
+----
+TheWorld:PushEvent("ms_setseasonlength", {season="summer", length=15})
+''Sets the lengths of the seasons.''
+
+
+Start Summer
+----
+TheWorld:PushEvent("ms_setseason", "summer")
+''Start summer''
+
+
+Start Winter
+----
+TheWorld:PushEvent("ms_setseason", "winter")
+
+
+Start rain
+----
+TheWorld:PushEvent("ms_forceprecipitation")
+
+
+Stop rain and Frog Rain.
+----
+TheWorld:PushEvent("ms_forceprecipitation", false)
+
+
+Create lightning strike on mouse cursor or a nearby lightning rod.
+----
+TheWorld:PushEvent("ms_sendlightningstrike", ConsoleWorldPosition())
+
+
+Meteor strike on mouse cursor. Spawns different kind of rocks randomly. WARNING: May crash the game
+----
+c_spawn("shadowmeteor", 1)
+
+
+Activate all Events
+----
+for k, v in pairs(SPECIAL_EVENTS) do if v ~= SPECIAL_EVENTS.NONE then local tech = TECH[k] if tech ~= nil then tech.SCIENCE = 0 end end end function IsSpecialEventActive(event) return true end
+
+
+Show the distance between the player and an object under the mouse cursor to the console log
+----
+print(math.sqrt(ThePlayer:GetDistanceSqToInst(ConsoleWorldEntityUnderMouse())))
+
+
+Kick a player using their UserID. UserIDs are in the form "KU_AABBCCDD"
+----
+TheNet:Kick(UserID)
+
+
+Ban a player using their UserID. UserIDs are in the form "KU_AABBCCDD"
+----
+TheNet:Ban(UserID)
+
+
+List all players in the world. Outputs each player's Player Index, UserID, name, and character. UserIDs are in the form KU_AABBCCDD
+----
+c_listallplayers()
+
+
+Ban a player using their Player INDEX.
+----
+TheNet:Ban(AllPlayers[INDEX].userid)
+
+
+Temporarily Ban a player for X seconds using their UserID. UserIDs are in the form "KU_AABBCCDD". This command should be entered to both servers if server has multi-level option (caves and overworld).
+----
+TheNet:BanForTime(UserID, X)
+
+
+Connect to a password-less server with IP address (like "10.0.0.8"), and select PORT, normally 10999, since it's the default.
+----
+c_connect(IP, PORT)
+
+
+Connect to a server with PASSWORD, like "123", and IP address, like "10.0.0.8", and select PORT, normally 10999, since it's the default.
+----
+c_connect(IP, PORT, PASSWORD)
+
+
+Reloads the world without saving. WARNING: This command may crash your game if you are a client, unless you send it as a remote command.
+----
+c_reset()
+
+
+Regenerate the world
+----
+c_regenerateworld()
+
+
+Regenerate the current world shard
+----
+c_regenerateshard()
+
+
+Save the server
+----
+c_save()
+
+
+Save and shut down the server
+----
+c_shutdown()
+
+
+Shut down the server without saving
+----
+c_shutdown(false)
+
+
+Roll back the server to the last save
+----
+c_rollback()
+
+
+Roll back the server by an X amount of saves
+----
+c_rollback(X)
+
+
+Disallow players to join
+----
+TheNet:SetAllowIncomingConnections(false)
+
+
+Allow players to join
+----
+TheNet:SetAllowIncomingConnections(true)
+
+
+Make a server announcement saying TEXT like "Hello everyone"
+----
+c_announce(TEXT)
+
+
+Drop a player's inventory items using their Player Index
+----
+AllPlayers[INDEX].components.inventory:DropEverything()
+
+
+Move another player using their Player Index
+----
+c_move(AllPlayers[INDEX])
+
+
+Despawn a player's character, returning them to selection screen for repicking, using their Player Index
+----
+c_despawn(AllPlayers[INDEX])
+
+
+Stop a vote
+----
+c_stopvote()
+
+
+Change the appeard length X, width Y, and height Z of the thing closest to the mouse cursor. Only applies to you, not other players.
+----
+c_select().Transform:SetScale(x, y, z)
+
+
+Clear the morgue. Requires closing and reopening the game for changes to be seen.
+----
+ErasePersistentString("morgue")
+
+
+Count the number of something in the entire world
+----
+ThePlayer.components.talker:Say(tostring(c_countprefabs("prefab")))
+
+
+Speak the text T, like "Hello"
+----
+ThePlayer.components.talker:Say(T)
+
+
+Count the number of something X, like "spear", in either the surroundings or the world. Surroundings when used locally, the world When using remote
+----
+c_countprefabs("prefab")
+
+
+Spawn connected wormholes ontop of you. Execute one at a time so the wormholes aren't spawned ontop of eachother.
+----
+worm1 = c_spawn("wormhole")
+worm2 = c_spawn("wormhole")
+worm1.components.teleporter.targetTeleporter = worm2
+worm2.components.teleporter.targetTeleporter = worm1
+
+
+Spawn a Domesticated Beefalo with a specific TENDENCY, options are "DEFAULT", "RIDER", "ORNERY", "PUDGY"
+----
+beef = c_spawn("beefalo"); beef.components.hunger:DoDelta(400); beef.components.domesticatable:DeltaTendency(TENDENCY, 1); beef:SetTendency(); beef.components.domesticatable.domestication = 1; beef.components.domesticatable:BecomeDomesticated();
+
+
+Teleport something X, like "flower", to the player with the Player Index Y
+----
+c_find(X).Transform:SetPosition(AllPlayers[Y]:GetPosition():Get())
+
+
+Set the player's length X, width Y, and height Z
+----
+ThePlayer.Transform:SetScale(X,Y,Z)
+
+
+Set whatever is closest to the mouse cursor's length X, width Y, and height Z. The target is the mob closest to the mouse cursor.
+----
+c_select().Transform:SetScale(X,Y,Z)
+
+
+Set player's color as Red, Green, Blue, and Transparency. Colors have to be >0 and <257.
+----
+ThePlayer.AnimState:SetMultColour(Red,Green,Blue,Transparency)
+
+
+Set whatever is closest to the mouse cursor's color as Red, Green, Blue, and Transparency. Colors have to be >0 and <257.
+----
+c_select().AnimState:SetMultColour(Red,Green,Blue,Transparency)
+
+
+Makes prefab under mouse pick-up-able. Usually crashes the game if mods are enabled. Picking up a player does cause the game to crash for the player being picked up
+----
+c_select():AddComponent("inventoryitem")
+
+
+Set a Body Part to be another character's bodypart. Bodypart can be "arm_lower", "arm_upper", "arm_upper_skin", "cheeks", "face", "foot", "hair", "hair_hat", "hairpigtails", "hairfront", "hand", "headbase", "headbase_hat", "leg", "skirt", "tail", or "torso". Character name can to take the bodypart from can be any character name, like "webber", "wilson", "wx78", but if you need Maxwell, then use "waxwell", and for Wigfrid use "wathgrithr".
+----
+ThePlayer.AnimState:OverrideSymbol(Bodypart, Character, Bodypart)
+
+
+Fully unlock the scrapbook
+----
+TheScrapbookPartitions:DebugUnlockEverything()
+
+
+Reset Ancient Gateway Key cooldown
+----
+c_find("atrium_gate").components.worldsettingstimer:SetTimeLeft("cooldown", 0) 
