@@ -63,7 +63,7 @@ local crab = c_findnext("hermitcrab") local crabfriendly = crab.components.frien
 TheWorld:PushEvent("ms_startthemoonstorms")	Start moonstorms.	TODO	TODO	TODO
 c_give(prefab).components.finiteuses:SetPercent(1)	Spawn a watering can or other prefabs at 100%.	TODO	TODO	TODO
 local function a(a, b) local c = a.components.health.maxhealth; a.Label:SetText(c*b.newpercent.."/"..c) end; for k,v in pairs(Ents) do local b = v.components.health; if b then local c = v.entity:AddLabel(); c:SetFont(BODYTEXTFONT); c:SetFontSize(24); v:ListenForEvent("healthdelta", a); b:DoDelta(0) end end	Make each entity say their hp.	TODO	TODO	TODO
-c_find("stalker_atrium").components.entitytracker:TrackEntity("stargate", c_find("atrium_gate")) most likely	Link spawned Ancient Fuelweaver to the gateway ##if doesn't work swap the positions of "stargate" and c_find("atrium_gate").	TODO	TODO	TODO
+c_find("stalker_atrium").components.entitytracker:TrackEntity("stargate", c_find("atrium_gate")) most likely	Link spawned Ancient Fuelweaver to the gateway. If it doesn't work swap the positions of "stargate" and c_find("atrium_gate").	TODO	TODO	TODO
 local curday = os.date("%d", os.time()); if tonumber(curday) < 10 then curday = string.sub(curday, 2, 2); end local curdate = os.date("%B "..curday..", %Y ", os.time()); local curhour = tonumber(os.date("%H", os.time())); local curhourmod = ((curhour-1)%12)+1; local curminute = os.date("%M ", os.time()); if curhour < 12 then curampm = "AM"; else curampm = "PM"; end c_announce(curdate..curhourmod..":"..curminute..curampm)	Announce the current date.	TODO	TODO	TODO
 for k,v in pairs(Ents) do if v.gemmed then local inst = SpawnPrefab(string.sub(v.gemmed, 1, -4).."mooneye"); inst.Physics:ClearCollidesWith(COLLISION.OBSTACLES); inst.Transform:SetPosition(v.Transform:GetWorldPosition()) end end	Add a moonlens to every ruins statue corresponding to its gem color. May get pushed off when loaded.	TODO	TODO	TODO
 local x,y,z = ConsoleWorldPosition():Get(); SpawnPrefab("insanityrock").Transform:SetPosition(math.floor(x),math.floor(y),math.floor(z));	Spawn objects to rounded position (per in-game unit).	TODO	TODO	TODO
@@ -113,3 +113,123 @@ AllPlayers[number]:PushEvent('respawnfromghost')	Resurrect all players.	TODO	TOD
 worm1a = c_find("wormhole") worm1b = c_find("wormhole") worm1a.components.teleporter.targetTeleporter = worm1b	Link two wormholes.	TODO	TODO	TODO
 c_gonext("wormhole")	Go to wormhole.	TODO	TODO	TODO
 c_announce(string.format("%.2f", c_pos(c_find"multiplayer_portal"):Dist(c_pos(c_find"chester_eyebone"))))	Announce distance between Florid Postern and the Chester Eyebone.	TODO	TODO	TODO
+c_spawn("sacred_chest")	Spawn the metheus puzzle chest.	TODO	TODO	TODO
+c_spawn("prefab",amount)	Spawn prefab under mouse cursor.	TODO	TODO	TODO
+c_give("prefab",amount)	Get any amount of item.	TODO	TODO	TODO
+c_goadventuring()	Get a set of starting items.	TODO	TODO	TODO
+c_doscenario(scenario)	Apply a scenario script to the selection and run it.	TODO	TODO	TODO
+c_sethea​lth(0.5)	Set your health to half of maximum.	TODO	TODO	TODO
+c_setsanit​y(0.5)	Set your sanity to half of maximum.	TODO	TODO	TODO
+c_sethunger(0.5)	Set hunger to half of maximum.	TODO	TODO	TODO
+c_setmoisture(0.5)	Set your moisture to half of maximum.	TODO	TODO	TODO
+c_settemperature(0.5)	Set temperature to half of maximum.	TODO	TODO	TODO
+c_godmode()	If alive, toggle invincibility. If dead, revive.	TODO	TODO	TODO
+c_supergodmode()	If alive, toggle invincibility and get full health, sanity and hunger. If dead, revive.	TODO	TODO	TODO
+c_maintainhealth(ThePlayer)	Make yourself constantly regenerate health.	TODO	TODO	TODO
+c_maintainsanity(ThePlayer)	Make yourself constantly regenerate sanity.	TODO	TODO	TODO
+c_maintainhunger(ThePlayer)	Make yourself constantly regenerate hunger.	TODO	TODO	TODO
+c_maintaintemperature(ThePlayer)	Make yourself constantly be a good temperature.	TODO	TODO	TODO
+c_maintainmoisture(ThePlayer)	Make yourself constantly be dry.	TODO	TODO	TODO
+c_maintainall(ThePlayer)	Turn on constant regeneration of health, sanity, hunger, temperature, and drying.	TODO	TODO	TODO
+c_cancelmaintaintasks(ThePlayer)	Turn off constant regeneration of health, sanity, hunger, temperature, and drying.	TODO	TODO	TODO
+c_makeinvisible()	Make some mobs not target you.	TODO	TODO	TODO
+ThePlayer:EnableMovementPrediction("true")	Turn on player movement prediction for the server you have joined. Exchanges choppiness for rubberbanding.	TODO	TODO	TODO
+ThePlayer:EnableMovementPrediction("true")	Turn off player movement prediction for the server you have joined. Exchanges rubberbanding for choppiness.	TODO	TODO	TODO
+c_freecrafting() GetPlayer().components.builder:GiveAllRecipes()	Become able to craft anything.	TODO	TODO	TODO
+ThePlayer.components.sanity:SetMax(value)	Set max sanity.	TODO	TODO	TODO
+ThePlayer.components.hunger:SetMax(value)	Set max hunger.	TODO	TODO	TODO
+ThePlayer.components.hunger:Pause(true)	Pause Hunger.	TODO	TODO	TODO
+for i, v in ipairs(AllPlayers) do TheNet:SystemMessage(tostring(i) .. ": " .. v.name, false) end	Print the player list to the chat.	TODO	TODO	TODO
+AllPlayers[number]	Get a certain player.	TODO	TODO	TODO
+for k,v in pairs(AllPlayers) do command end	Apply a command to all players.	TODO	TODO	TODO
+for k,v in pairs(AllPlayers) do c_move(v) end	Move all players to mouse position.	TODO	TODO	TODO
+c_move(AllPlayers[number])	Teleport another player to mouse position.	TODO	TODO	TODO
+AllPlayers[number]:PushEvent('death')	Kill a player.	TODO	TODO	TODO
+AllPlayers[2]:PushEvent('death')	Kill the second player.	TODO	TODO	TODO
+UserToPlayer('Dave'):PushEvent('death')	Kill player named Dave.	TODO	TODO	TODO
+AllPlayers[number]:PushEvent('respawnfromghost')	Resurrect a player.	TODO	TODO	TODO
+AllPlayers[2]:PushEvent('respawnfromghost')	Resurrect the second player.	TODO	TODO	TODO
+UserToPlayer('Dave'):PushEvent('respawnfromghost')	Resurrect the player named Dave.	TODO	TODO	TODO
+AllPlayers[number].components.builder:GiveAllRecipes()	Give creative mode to a player.	TODO	TODO	TODO
+UserToPlayer('Dave').components.builder:GiveAllRecipes()	Give creative mode to the player named Dave.	TODO	TODO	TODO
+c_goto(AllPlayers[number])	Teleport to a player.	TODO	TODO	TODO
+c_goto(AllPlayers[2])	Teleport to the second player.	TODO	TODO	TODO
+c_goto(UserToPlayer('Dave'))	Teleport to the player named Dave.	TODO	TODO	TODO
+AllPlayers[number].components.inventory:DropEverything()	Drop a player's inventory items.	TODO	TODO	TODO
+AllPlayers[2].components.inventory:DropEverything()	Drop the second player's inventory items.	TODO	TODO	TODO
+UserToPlayer('Dave').components.inventory:DropEverything()	Drop Dave's inventory items.	TODO	TODO	TODO
+c_despawn(AllPlayers[number])	Despawn a player's character. Player returns to selection screen for repicking. Does delete player's items.	TODO	TODO	TODO
+c_despawn(UserToPlayer('Dave'))	Despawn Dave's character. Player returns to selection screen for repicking. Does delete player's items.	TODO	TODO	TODO
+ConsoleWorldEntityUnderMouse():Remove()	Delete the item under your mouse on non-dedicated servers.	TODO	TODO	TODO
+c_select():Remove()	Delete the item under your mouse on a dedicated server.	TODO	TODO	TODO
+for k,v in pairs(Ents) do if v.prefab == "prefab" then v:Remove() end end	Deletes every instance of whatever item prefab is entered.	TODO	TODO	TODO
+minimap = TheSim:FindFirstEntityWithTag("mini­map") TheWorld.minimap.MiniMap:ShowArea (0,0,0,10000) for x=-1600,1600,35 do for y=-1600,1600,35 do ThePlayer.player_classified.MapExplorer:RevealArea(x,0,y) end end	Reveal map. Will not work if you are a client.	TODO	TODO	TODO
+for k,v in pairs(AllPlayers) do for x=-1600,1600,35 do for y=-1600,1600,35 do v.player_classified.MapExplorer:RevealArea(x,0,y) end end end	Reveal map for all players. Remote only, not client.	TODO	TODO	TODO
+LongUpdate(X)	Skips X time units and performs the "LongUpdate" function on world objects.	TODO	TODO	TODO
+LongUpdate(X*30)	Skip X time segments.	TODO	TODO	TODO
+LongUpdate(X*16*30)	Skip X day, where a day is 16 segments, each being 30 time units.	TODO	TODO	TODO
+LongUpdate(X*TUNING.TOTAL_DAY_TIME)	Skip X days.	TODO	TODO	TODO
+c_speedup()	Speed up the simulation of world by 1. Makes time pass faster.	TODO	TODO	TODO
+TheSim:SetTimeScale(X)	Speed up the simulation of world by X. Makes time pass faster when X>1, slower when X<1, pause when X=0.	TODO	TODO	TODO
+TheWorld.net.components.clock:OnUpdate(X)	Skip X Time Units. Too big values may freeze the game.	TODO	TODO	TODO
+TheWorld.net.components.clock:OnUpdate(X*16)	Skip X Time Segments. Too big values may freeze the game.	TODO	TODO	TODO
+TheWorld.net.components.clock:OnUpdate(X*16*30)	Skip X days. Too big values may freeze the game.	TODO	TODO	TODO
+c_skip(X)	Skip X days. Too big values may freeze the game.	TODO	TODO	TODO
+​TheWorld:PushEvent("ms_nextcycle")	Skip to the next Day Cycle.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_nextphase")	Skips the current Day Cycle phase.	TODO	TODO	TODO
+​TheWorld:PushEvent("ms_setphase",PHASE)	Set Day Cycle phase to PHASE. PHASE can be "day", "dusk", or "night".	TODO	TODO	TODO
+TheWorld:PushEvent("ms_setclocksegs", {day=X,dusk=Y,night=Z})	Sets amount of segments for day X, dusk Y, and night Z. Lasts only for the current Day Cycle. Errors if X+Y+Z > 16.	TODO	TODO	TODO
+​TheWorld:PushEvent("ms_nextnightmarecycle")	Skip to the next Nightmare Cycle.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_nextnightmarephase")	Skip the current Nightmare Cycle phase.	TODO	TODO	TODO
+​TheWorld:PushEvent("ms_setnightmarephase",PHASE)	Set Nightmare Cycle phase. PHASE can be "calm", "warn", "wild", or "dawn".	TODO	TODO	TODO
+TheWorld:PushEvent("ms_setnightmaresegs", {calm=A,warn=B,wild=C,dawn=D})	Sets amount of segments for each phase in the Nightmare Cycle. A, B, C, and D can be any number. The default is {calm=12,warn=3,wild=5,dawn=2}.	TODO	TODO	TODO
+​TheWorld:PushEvent("ms_locknightmarephase",PHASE)	Lock at specific Nightmare Cycle phase. PHASE can be "calm", "warn", "wild", or "dawn".	TODO	TODO	TODO
+​TheWorld:PushEvent("ms_locknightmarephase")	Stop locking nightmare phase.	TODO	TODO	TODO
+​TheWorld:PushEvent("ms_setseasonclocksegs", {summer={day=sx,dusk=sy,night=sz}, winter={day=wx,dusk=wy,night=wz}})	Set season segments. Errors if X + Y + Z adds up to over 16.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_setseasonlength", {season="Summer", length=L})	Set the length of summer to L.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_setseason", "summer")	Start summer.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_setseason", "winter")	Start Winter.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_forceprecipitation")	Start rain.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_forceprecipitation", false)	Stop rain and Frog Rain.	TODO	TODO	TODO
+TheWorld:PushEvent("ms_sendlightningstrike", ConsoleWorldPosition())	Create lightning strike on mouse cursor or a nearby lightning rod.	TODO	TODO	TODO
+c_spawn("shadowmeteor", 1)	Meteor strike on mouse cursor. Spawns different kind of rocks randomly. WARNING: May crash the game.	TODO	TODO	TODO
+for k, v in pairs(SPECIAL_EVENTS) do if v ~= SPECIAL_EVENTS.NONE then local tech = TECH[k] if tech ~= nil then tech.SCIENCE = 0 end end end function IsSpecialEventActive(event) return true end	Activate all Events.	TODO	TODO	TODO
+print(math.sqrt(ThePlayer:GetDistanceSqToInst(ConsoleWorldEntityUnderMouse())))	Show the distance between the player and an object under the mouse cursor to the console log.	TODO	TODO	TODO
+TheNet:Kick(UserID)	Kick a player using their UserID. UserIDs are in the form "KU_AABBCCDD".	TODO	TODO	TODO
+TheNet:Ban(UserID)	Ban a player using their UserID. UserIDs are in the form "KU_AABBCCDD".	TODO	TODO	TODO
+c_listallplayers()	List all players in the world. Outputs each player's Player Index, UserID, name, and character. UserIDs are in the form KU_AABBCCDD.	TODO	TODO	TODO
+TheNet:Ban(AllPlayers[INDEX].userid)	Ban a player using their Player INDEX.	TODO	TODO	TODO
+TheNet:BanForTime(UserID, X)	Temporarily Ban a player for X seconds using their UserID. UserIDs are in the form "KU_AABBCCDD". This command should be entered to both servers if server has multi-level option (caves and overworld).	TODO	TODO	TODO
+c_connect(IP, PORT)	Connect to a password-less server with IP address (like "10.0.0.8"), and select PORT, normally 10999, since it's the default.	TODO	TODO	TODO
+c_connect(IP, PORT, PASSWORD)	Connect to a server with PASSWORD, like "123", and IP address, like "10.0.0.8", and select PORT, normally 10999, since it's the default.	TODO	TODO	TODO
+c_reset()	Reloads the world without saving. WARNING: This command may crash your game if you are a client, unless you send it as a remote command.	TODO	TODO	TODO
+c_regenerateworld()	Regenerate the world.	TODO	TODO	TODO
+c_regenerateshard()	Regenerate the current world shard.	TODO	TODO	TODO
+c_save()	Save the server.	TODO	TODO	TODO
+c_shutdown()	Save and shut down the server.	TODO	TODO	TODO
+c_shutdown(false)	Shut down the server without saving.	TODO	TODO	TODO
+c_rollback()	Roll back the server to the last save.	TODO	TODO	TODO
+c_rollback(X)	Roll back the server by an X amount of saves.	TODO	TODO	TODO
+TheNet:SetAllowIncomingConnections(false)	Disallow players to join.	TODO	TODO	TODO
+TheNet:SetAllowIncomingConnections(true)	Allow players to join.	TODO	TODO	TODO
+c_announce(TEXT)	Make a server announcement saying TEXT like "Hello everyone".	TODO	TODO	TODO
+AllPlayers[INDEX].components.inventory:DropEverything()	Drop a player's inventory items using their Player Index.	TODO	TODO	TODO
+c_move(AllPlayers[INDEX])	Move another player using their Player Index.	TODO	TODO	TODO
+c_despawn(AllPlayers[INDEX])	Despawn a player's character, returning them to selection screen for repicking, using their Player Index.	TODO	TODO	TODO
+c_stopvote()	Stop a vote.	TODO	TODO	TODO
+c_select().Transform:SetScale(x, y, z)	Change the appeard length X, width Y, and height Z of the thing closest to the mouse cursor. Only applies to you, not other players.	TODO	TODO	TODO
+ErasePersistentString("morgue")	Clear the morgue. Requires closing and reopening the game for changes to be seen.	TODO	TODO	TODO
+ThePlayer.components.talker:Say(tostring(c_countprefabs("prefab")))	Count the number of something in the entire world.	TODO	TODO	TODO
+ThePlayer.components.talker:Say(T)	Speak the text T, like "Hello".	TODO	TODO	TODO
+c_countprefabs("prefab")	Count the number of something X, like "spear", in either the surroundings or the world. Surroundings when used locally, the world When using remote.	TODO	TODO	TODO
+worm1 = c_spawn("wormhole") worm2 = c_spawn("wormhole") worm1.components.teleporter.targetTeleporter = worm2 worm2.components.teleporter.targetTeleporter = worm1	Spawn connected wormholes ontop of you. Execute one at a time so the wormholes aren't spawned ontop of eachother.	TODO	TODO	TODO
+beef = c_spawn("beefalo"); beef.components.hunger:DoDelta(400); beef.components.domesticatable:DeltaTendency(TENDENCY, 1); beef:SetTendency(); beef.components.domesticatable.domestication = 1; beef.components.domesticatable:BecomeDomesticated();	Spawn a Domesticated Beefalo with a specific TENDENCY, options are "DEFAULT", "RIDER", "ORNERY", "PUDGY".	TODO	TODO	TODO
+c_find(X).Transform:SetPosition(AllPlayers[Y]:GetPosition():Get())	Teleport something X, like "flower", to the player with the Player Index Y.	TODO	TODO	TODO
+ThePlayer.Transform:SetScale(X,Y,Z)	Set the player's length X, width Y, and height Z.	TODO	TODO	TODO
+c_select().Transform:SetScale(X,Y,Z)	Set whatever is closest to the mouse cursor's length X, width Y, and height Z. The target is the mob closest to the mouse cursor.	TODO	TODO	TODO
+ThePlayer.AnimState:SetMultColour(Red,Green,Blue,Transparency)	Set player's color as Red, Green, Blue, and Transparency. Colors have to be >0 and <257.	TODO	TODO	TODO
+c_select().AnimState:SetMultColour(Red,Green,Blue,Transparency)	Set whatever is closest to the mouse cursor's color as Red, Green, Blue, and Transparency. Colors have to be >0 and <257.	TODO	TODO	TODO
+c_select():AddComponent("inventoryitem")	Makes prefab under mouse pick-up-able. Usually crashes the game if mods are enabled. Picking up a player does cause the game to crash for the player being picked up.	TODO	TODO	TODO
+ThePlayer.AnimState:OverrideSymbol(Bodypart, Character, Bodypart)	Set a Body Part to be another character's bodypart. Bodypart can be "arm_lower", "arm_upper", "arm_upper_skin", "cheeks", "face", "foot", "hair", "hair_hat", "hairpigtails", "hairfront", "hand", "headbase", "headbase_hat", "leg", "skirt", "tail", or "torso". Character name can to take the bodypart from can be any character name, like "webber", "wilson", "wx78", but if you need Maxwell, then use "waxwell", and for Wigfrid use "wathgrithr".	TODO	TODO	TODO
+TheScrapbookPartitions:DebugUnlockEverything()	Fully unlock the scrapbook.	TODO	TODO	TODO
+c_find("atrium_gate").components.worldsettingstimer:SetTimeLeft("cooldown", 0) 	Reset Ancient Gateway Key cooldown.	TODO	TODO	TODO
