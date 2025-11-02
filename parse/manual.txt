@@ -743,7 +743,7 @@ Spawn the metheus puzzle chest.
 c_spawn("sacred_chest")
 
 
-Spawn prefab under mouse cursor
+Spawn prefab under mouse cursor.
 ----
 c_spawn("prefab",amount)
 
@@ -758,7 +758,7 @@ Get a set of starting items.
 c_goadventuring()
 
 
-Apply a scenario script to the selection and run it.''
+Apply a scenario script to the selection and run it.
 ----
 c_doscenario(scenario)
 
@@ -874,17 +874,17 @@ Print the player list to the chat.
 for i, v in ipairs(AllPlayers) do TheNet:SystemMessage(tostring(i) .. ": " .. v.name, false) end
 
 
-Get a certain player
+Get a certain player.
 ----
 AllPlayers[number]
 
 
-Apply a command to all players
+Apply a command to all players.
 ----
 for k,v in pairs(AllPlayers) do command end
 
 
-Move all players to mouse position
+Move all players to mouse position.
 ----
 for k,v in pairs(AllPlayers) do c_move(v) end
 
@@ -894,7 +894,7 @@ Teleport another player to mouse position.
 c_move(AllPlayers[number])
 
 
-Kill a player
+Kill a player.
 ----
 AllPlayers[number]:PushEvent('death')
 
@@ -909,7 +909,7 @@ Kill player named Dave.
 UserToPlayer('Dave'):PushEvent('death')
 
 
-Resurrect a player
+Resurrect a player.
 ----
 AllPlayers[number]:PushEvent('respawnfromghost')
 
@@ -980,7 +980,6 @@ ConsoleWorldEntityUnderMouse():Remove()
 
 
 Delete the item under your mouse on a dedicated server.
-on dedicated servers
 ----
 c_select():Remove()
 
@@ -1006,22 +1005,22 @@ Reveal map for all players. Remote only, not client.
 for k,v in pairs(AllPlayers) do for x=-1600,1600,35 do for y=-1600,1600,35 do v.player_classified.MapExplorer:RevealArea(x,0,y) end end end
 
 
-Skips X time units and performs the "LongUpdate" function on world objects
+Skips X time units and performs the "LongUpdate" function on world objects.
 ----
 LongUpdate(X)
 
 
-Skip X time segments
+Skip X time segments.
 ----
 LongUpdate(X*30)
 
 
-Skip X day, where a day is 16 segments, each being 30 time units
+Skip X day, where a day is 16 segments, each being 30 time units.
 ----
 LongUpdate(X*16*30)
 
 
-Skip X days
+Skip X days.
 ----
 LongUpdate(X*TUNING.TOTAL_DAY_TIME)
 
@@ -1036,38 +1035,47 @@ Speed up the simulation of world by X. Makes time pass faster when X>1, slower w
 TheSim:SetTimeScale(X)
 
 
-Skip X days. Too big values may freeze the game
-?? Note that this is here so you can manually change the rate of time skip. Use c_skip(x)
+Skip X Time Units. Too big values may freeze the game.
+----
+TheWorld.net.components.clock:OnUpdate(X)
+
+
+Skip X Time Segments. Too big values may freeze the game.
+----
+TheWorld.net.components.clock:OnUpdate(X*16)
+
+
+Skip X days. Too big values may freeze the game.
 ----
 TheWorld.net.components.clock:OnUpdate(X*16*30)
 
 
-Skip X days
+Skip X days. Too big values may freeze the game.
 ----
 c_skip(X)
 
 
-Skip to the next Day Cycle
+Skip to the next Day Cycle.
 ----
 ​TheWorld:PushEvent("ms_nextcycle")
 
 
-Skips the current Day Cycle phase
+Skips the current Day Cycle phase.
 ----
 TheWorld:PushEvent("ms_nextphase")
 
 
-Set Day Cycle phase to PHASE. PHASE can be "day", "dusk", or "night"
+Set Day Cycle phase to PHASE. PHASE can be "day", "dusk", or "night".
 ----
 ​TheWorld:PushEvent("ms_setphase",PHASE)
 
 
-Sets amount of segments for day X, dusk Y, and night Z. Lasts only for the current Day Cycle. Errors if X+Y+Z > 16
+Sets amount of segments for day X, dusk Y, and night Z. Lasts only for the current Day Cycle. Errors if X+Y+Z > 16.
 ----
 TheWorld:PushEvent("ms_setclocksegs", {day=X,dusk=Y,night=Z})
 
 
-Skip to the next Nightmare Cycle
+Skip to the next Nightmare Cycle.
 ----
 ​TheWorld:PushEvent("ms_nextnightmarecycle")
 
@@ -1082,45 +1090,42 @@ Set Nightmare Cycle phase. PHASE can be "calm", "warn", "wild", or "dawn".
 ​TheWorld:PushEvent("ms_setnightmarephase",PHASE)
 
 
-Sets amount of segments for each phase in the Nightmare Cycle. A, B, C, and D can be any number. The default is {calm=12,warn=3,wild=5,dawn=2}
+Sets amount of segments for each phase in the Nightmare Cycle. A, B, C, and D can be any number. The default is {calm=12,warn=3,wild=5,dawn=2}.
 ----
 TheWorld:PushEvent("ms_setnightmaresegs", {calm=A,warn=B,wild=C,dawn=D})
 
 
-Lock at specific Nightmare Cycle phase. PHASE can be "calm", "warn", "wild", or "dawn"
+Lock at specific Nightmare Cycle phase. PHASE can be "calm", "warn", "wild", or "dawn".
 ----
 ​TheWorld:PushEvent("ms_locknightmarephase",PHASE)
 
 
-Stop locking nightmare phase
+Stop locking nightmare phase.
 ----
 ​TheWorld:PushEvent("ms_locknightmarephase")
 
 
 Set season segments. Errors if X + Y + Z adds up to over 16.
-''Very long day, very short dusk and night (one segment for dusk and one for night), with a slightly longer night in winter.''
 ----
 ​TheWorld:PushEvent("ms_setseasonclocksegs", {summer={day=sx,dusk=sy,night=sz}, winter={day=wx,dusk=wy,night=wz}})
 
 
-Set season lengths
+Set the length of summer to L.
 ----
-TheWorld:PushEvent("ms_setseasonlength", {season="summer", length=15})
-''Sets the lengths of the seasons.''
+TheWorld:PushEvent("ms_setseasonlength", {season="Summer", length=L})
 
 
-Start Summer
+Start summer.
 ----
 TheWorld:PushEvent("ms_setseason", "summer")
-''Start summer''
 
 
-Start Winter
+Start Winter.
 ----
 TheWorld:PushEvent("ms_setseason", "winter")
 
 
-Start rain
+Start rain.
 ----
 TheWorld:PushEvent("ms_forceprecipitation")
 
@@ -1135,32 +1140,32 @@ Create lightning strike on mouse cursor or a nearby lightning rod.
 TheWorld:PushEvent("ms_sendlightningstrike", ConsoleWorldPosition())
 
 
-Meteor strike on mouse cursor. Spawns different kind of rocks randomly. WARNING: May crash the game
+Meteor strike on mouse cursor. Spawns different kind of rocks randomly. WARNING: May crash the game.
 ----
 c_spawn("shadowmeteor", 1)
 
 
-Activate all Events
+Activate all Events.
 ----
 for k, v in pairs(SPECIAL_EVENTS) do if v ~= SPECIAL_EVENTS.NONE then local tech = TECH[k] if tech ~= nil then tech.SCIENCE = 0 end end end function IsSpecialEventActive(event) return true end
 
 
-Show the distance between the player and an object under the mouse cursor to the console log
+Show the distance between the player and an object under the mouse cursor to the console log.
 ----
 print(math.sqrt(ThePlayer:GetDistanceSqToInst(ConsoleWorldEntityUnderMouse())))
 
 
-Kick a player using their UserID. UserIDs are in the form "KU_AABBCCDD"
+Kick a player using their UserID. UserIDs are in the form "KU_AABBCCDD".
 ----
 TheNet:Kick(UserID)
 
 
-Ban a player using their UserID. UserIDs are in the form "KU_AABBCCDD"
+Ban a player using their UserID. UserIDs are in the form "KU_AABBCCDD".
 ----
 TheNet:Ban(UserID)
 
 
-List all players in the world. Outputs each player's Player Index, UserID, name, and character. UserIDs are in the form KU_AABBCCDD
+List all players in the world. Outputs each player's Player Index, UserID, name, and character. UserIDs are in the form KU_AABBCCDD.
 ----
 c_listallplayers()
 
@@ -1190,72 +1195,72 @@ Reloads the world without saving. WARNING: This command may crash your game if y
 c_reset()
 
 
-Regenerate the world
+Regenerate the world.
 ----
 c_regenerateworld()
 
 
-Regenerate the current world shard
+Regenerate the current world shard.
 ----
 c_regenerateshard()
 
 
-Save the server
+Save the server.
 ----
 c_save()
 
 
-Save and shut down the server
+Save and shut down the server.
 ----
 c_shutdown()
 
 
-Shut down the server without saving
+Shut down the server without saving.
 ----
 c_shutdown(false)
 
 
-Roll back the server to the last save
+Roll back the server to the last save.
 ----
 c_rollback()
 
 
-Roll back the server by an X amount of saves
+Roll back the server by an X amount of saves.
 ----
 c_rollback(X)
 
 
-Disallow players to join
+Disallow players to join.
 ----
 TheNet:SetAllowIncomingConnections(false)
 
 
-Allow players to join
+Allow players to join.
 ----
 TheNet:SetAllowIncomingConnections(true)
 
 
-Make a server announcement saying TEXT like "Hello everyone"
+Make a server announcement saying TEXT like "Hello everyone".
 ----
 c_announce(TEXT)
 
 
-Drop a player's inventory items using their Player Index
+Drop a player's inventory items using their Player Index.
 ----
 AllPlayers[INDEX].components.inventory:DropEverything()
 
 
-Move another player using their Player Index
+Move another player using their Player Index.
 ----
 c_move(AllPlayers[INDEX])
 
 
-Despawn a player's character, returning them to selection screen for repicking, using their Player Index
+Despawn a player's character, returning them to selection screen for repicking, using their Player Index.
 ----
 c_despawn(AllPlayers[INDEX])
 
 
-Stop a vote
+Stop a vote.
 ----
 c_stopvote()
 
@@ -1270,17 +1275,17 @@ Clear the morgue. Requires closing and reopening the game for changes to be seen
 ErasePersistentString("morgue")
 
 
-Count the number of something in the entire world
+Count the number of something in the entire world.
 ----
 ThePlayer.components.talker:Say(tostring(c_countprefabs("prefab")))
 
 
-Speak the text T, like "Hello"
+Speak the text T, like "Hello".
 ----
 ThePlayer.components.talker:Say(T)
 
 
-Count the number of something X, like "spear", in either the surroundings or the world. Surroundings when used locally, the world When using remote
+Count the number of something X, like "spear", in either the surroundings or the world. Surroundings when used locally, the world When using remote.
 ----
 c_countprefabs("prefab")
 
@@ -1293,17 +1298,17 @@ worm1.components.teleporter.targetTeleporter = worm2
 worm2.components.teleporter.targetTeleporter = worm1
 
 
-Spawn a Domesticated Beefalo with a specific TENDENCY, options are "DEFAULT", "RIDER", "ORNERY", "PUDGY"
+Spawn a Domesticated Beefalo with a specific TENDENCY, options are "DEFAULT", "RIDER", "ORNERY", "PUDGY".
 ----
 beef = c_spawn("beefalo"); beef.components.hunger:DoDelta(400); beef.components.domesticatable:DeltaTendency(TENDENCY, 1); beef:SetTendency(); beef.components.domesticatable.domestication = 1; beef.components.domesticatable:BecomeDomesticated();
 
 
-Teleport something X, like "flower", to the player with the Player Index Y
+Teleport something X, like "flower", to the player with the Player Index Y.
 ----
 c_find(X).Transform:SetPosition(AllPlayers[Y]:GetPosition():Get())
 
 
-Set the player's length X, width Y, and height Z
+Set the player's length X, width Y, and height Z.
 ----
 ThePlayer.Transform:SetScale(X,Y,Z)
 
@@ -1323,7 +1328,7 @@ Set whatever is closest to the mouse cursor's color as Red, Green, Blue, and Tra
 c_select().AnimState:SetMultColour(Red,Green,Blue,Transparency)
 
 
-Makes prefab under mouse pick-up-able. Usually crashes the game if mods are enabled. Picking up a player does cause the game to crash for the player being picked up
+Makes prefab under mouse pick-up-able. Usually crashes the game if mods are enabled. Picking up a player does cause the game to crash for the player being picked up.
 ----
 c_select():AddComponent("inventoryitem")
 
@@ -1333,11 +1338,11 @@ Set a Body Part to be another character's bodypart. Bodypart can be "arm_lower",
 ThePlayer.AnimState:OverrideSymbol(Bodypart, Character, Bodypart)
 
 
-Fully unlock the scrapbook
+Fully unlock the scrapbook.
 ----
 TheScrapbookPartitions:DebugUnlockEverything()
 
 
-Reset Ancient Gateway Key cooldown
+Reset Ancient Gateway Key cooldown.
 ----
 c_find("atrium_gate").components.worldsettingstimer:SetTimeLeft("cooldown", 0) 
